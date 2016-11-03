@@ -1,5 +1,4 @@
 use std::f32;
-use std::vec;
 use na::{Vector2, Point2, Norm, FloatPoint};
 use golfball;
 use planet;
@@ -17,10 +16,14 @@ pub fn calculate_gravity(planets: Vec<planet::Planet>,ball: golfball::Golfball) 
 	let mut result = Vector2::new(0.0,0.0);
 	//Calculate each acceleration vector individually and add them to the reuslt
 	for planet in &planets{
-		let directionVector = planet.position.to_vector() - ball.position.to_vector();
-		let normalizedVector = directionVector.normalize();
 		let distance = ball.position.distance(&planet.position);
-		result += normalizedVector * gravity_acc(planet.mass, distance);
+
+		if distance < planet.reach{
+			let direction_vector = planet.position.to_vector() - ball.position.to_vector();
+			let normalized_vector = direction_vector.normalize();
+			result += normalized_vector * gravity_acc(planet.mass, distance);			
+		}
+
 	}
 	return result;
 }
@@ -42,6 +45,16 @@ fn test_gravity_acc() {
 fn test_calculate_gravity() {
   let planets = vec![planet::Planet{position: Point2::new(0.0,0.0), mass:1.0, radius:1.0, reach:1.0}, planet::Planet{position: Point2::new(0.0,1.0), mass:1.0, radius:1.0, reach:1.0}];
   let ball = golfball::Golfball::new(Point2::new(1.0,1.0));
-  let accVector = calculate_gravity(planets, ball);
-  assert!((accVector.len() as f32) - ((1.0/(8.0_f32).sqrt() * Vector2::new(-1.0-(8.0_f32).sqrt(), -1.0)).len() as f32) < 0.001);
+  let acc_vector = calculate_gravity(planets, ball);
+  assert!((acc_vector.len() as f32) - ((1.0/(8.0_f32).sqrt() * Vector2::new(-1.0-(8.0_f32).sqrt(), -1.0)).len() as f32) < 0.001);
+}
+
+//Testing that planets have no effect on the ball if it is out of their reach
+#[test]
+fn test_calculate_gravity_reach() {
+  let planets = vec![planet::Planet{position: Point2::new(0.0,0.0), mass:1.0, radius:1.0, reach:0.0},
+  					 planet::Planet{position: Point2::new(0.0,1.0), mass:1.0, radius:1.0, reach:0.0}];
+  let ball = golfball::Golfball::new(Point2::new(1.0,1.0));
+  let acc_vector = calculate_gravity(planets, ball);
+  assert_eq!(acc_vector, Vector2::new(0.0,0.0));
 }
