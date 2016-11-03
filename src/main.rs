@@ -12,6 +12,7 @@ use opengl_graphics::{ GlGraphics, OpenGL };
 
 mod golfball;
 mod planet;
+mod goal;
 
 pub struct App {
     gl: GlGraphics, // OpenGL drawing backend.
