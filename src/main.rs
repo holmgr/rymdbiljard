@@ -2,12 +2,15 @@ extern crate piston;
 extern crate graphics;
 extern crate glutin_window;
 extern crate opengl_graphics;
+extern crate nalgebra as na;
 
 use piston::window::WindowSettings;
 use piston::event_loop::*;
 use piston::input::*;
 use glutin_window::GlutinWindow as Window;
 use opengl_graphics::{ GlGraphics, OpenGL };
+
+mod golfball;
 
 pub struct App {
     gl: GlGraphics, // OpenGL drawing backend.
