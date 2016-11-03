@@ -1,6 +1,10 @@
 [package]
 name = "spacegolf"
 version = "0.1.0"
-authors = ["holmgr <viktor.holmgren@gmail.com>"]
+authors = [
+  "holmgr <viktor.holmgren@gmail.com>",
+  "alexsaaf <alexandersaaf95@gmail.com>",
+  "fumoffu947 <philip_yeah@hotmail.com"
+]
 
 [dependencies]
