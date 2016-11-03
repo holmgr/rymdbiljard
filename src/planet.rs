@@ -1,8 +1,8 @@
 use na::{Point2};
 
 pub struct Planet {
-  position: Point2<f32>,
-  radius: f32,
-  mass: f32,
-  reach: f32,
+  pub position: Point2<f32>,
+  pub radius: f32,
+  pub mass: f32,
+  pub reach: f32,
 }
