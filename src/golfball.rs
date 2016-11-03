@@ -1,10 +1,10 @@
 use na::{Vector2, Point2};
 
 pub struct Golfball {
-  position: Point2<f32>,
-  radius: f32,
-  mass: f32,
-  velocity: Vector2<f32>,
+  pub position: Point2<f32>,
+  pub radius: f32,
+  pub mass: f32,
+  pub velocity: Vector2<f32>,
 }
 
 const MASS: f32 = 0.1;
