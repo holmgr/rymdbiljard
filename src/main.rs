@@ -14,6 +14,7 @@ mod golfball;
 mod planet;
 mod goal;
 mod physics;
+mod worldbox;
 
 pub struct App {
     gl: GlGraphics, // OpenGL drawing backend.
