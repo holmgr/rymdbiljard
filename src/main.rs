@@ -10,11 +10,9 @@ use piston::input::*;
 use glutin_window::GlutinWindow as Window;
 use opengl_graphics::{GlGraphics, OpenGL};
 
-mod golfball;
-mod planet;
-mod goal;
+mod poolball;
+mod goalzone;
 mod physics;
-mod worldbox;
 
 pub struct App {
     gl: GlGraphics, // OpenGL drawing backend.

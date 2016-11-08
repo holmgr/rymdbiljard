@@ -1,6 +1,6 @@
 use na::{Vector2, Point2};
 
-pub struct Golfball {
+pub struct Poolall {
     pub position: Point2<f32>,
     pub radius: f32,
     pub mass: f32,
@@ -13,7 +13,7 @@ const RADIUS: f32 = 1.0;
 impl Golfball {
     // Creates a new Golfball with a initial position and velocity
     pub fn new(position: Point2<f32>) -> Golfball {
-        Golfball {
+        Poolball {
             position: position,
             radius: RADIUS,
             mass: MASS,
@@ -30,7 +30,7 @@ impl Golfball {
 
 #[test]
 fn test_update() {
-    let mut ball = Golfball::new(Point2::new(0.0, 0.0));
+    let mut ball = Poolball::new(Point2::new(0.0, 0.0));
     ball.update(Vector2::new(1.0, 1.0), 1.0);
     ball.update(Vector2::new(1.0, 1.0), 1.0);
     assert_eq!(ball.velocity, Vector2::new(2.0, 2.0));
