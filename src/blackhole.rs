@@ -25,3 +25,20 @@ impl Blackhole {
 		return distance < self.radius+poolball.radius;
 	}
 }
+
+#[test]
+fn test_isSpagettified() {
+	let bh = Blackhole::new(Point2::new(0.0,0.0),1.0,1.0,3.0);
+	let pb1 = poolball::Poolball::new(Point2::new(1.0,0.0));
+	let pb2 = poolball::Poolball::new(Point2::new(-1.0,0.0));
+	let pb3 = poolball::Poolball::new(Point2::new(0.0,1.0));
+	let pb4 = poolball::Poolball::new(Point2::new(0.0,-1.0));
+	let pb5 = poolball::Poolball::new(Point2::new(2.1,0.0));
+	let pb6 = poolball::Poolball::new(Point2::new(0.0,2.1));
+	assert!(bh.isSpagettified(pb1));
+	assert!(bh.isSpagettified(pb2));
+	assert!(bh.isSpagettified(pb3));
+	assert!(bh.isSpagettified(pb4));
+	assert!(!bh.isSpagettified(pb5));
+	assert!(!bh.isSpagettified(pb6));
+}
