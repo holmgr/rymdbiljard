@@ -18,8 +18,8 @@ impl Goalzone {
     }
 
     // Returns whether a given poolball is within the goalzone
-    pub fn reachedGoal(&self, ball: &poolball::Poolball) -> bool {
-        self.radius + ball.radius < self.position.distance(&ball.position)
+    pub fn reached_goal(&self, ball: &poolball::Poolball) -> bool {
+        self.position.distance(&ball.position) <= self.radius + ball.radius
     }
 }
 
@@ -27,10 +27,10 @@ impl Goalzone {
 fn test_reach() {
     // Inside range, should succeed
     let ball = poolball::Poolball::new(Point2::new(0.0, 0.0));
-    let goalzone = Goalzone::new(Point2::new(RADIUS, RADIUS));
-    assert!(goalzone.reachedGoal(&ball), true);
+    let goalzone = Goalzone::new(Point2::new(0.0, 10.0));
+    assert!(goalzone.reached_goal(&ball));
 
     // Outside of range should fail
-    let goalzone = Goalzone::new(Point2::new(2.0*RADIUS, 2.0*RADIUS));
-    assert!(!goalzone.reachedGoal(&ball));
+    let goalzone = Goalzone::new(Point2::new(10.0, 10.0));
+    assert!(!goalzone.reached_goal(&ball));
 }
