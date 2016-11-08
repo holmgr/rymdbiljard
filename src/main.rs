@@ -3,6 +3,7 @@ extern crate graphics;
 extern crate glutin_window;
 extern crate opengl_graphics;
 extern crate nalgebra as na;
+extern crate num_traits;
 
 use piston::window::WindowSettings;
 use piston::event_loop::*;

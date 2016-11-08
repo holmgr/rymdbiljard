@@ -1,4 +1,3 @@
-use std::f32;
 use na::{Vector2, Point2, Norm, FloatPoint};
 use poolball;
 use blackhole;

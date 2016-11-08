@@ -1,5 +1,5 @@
 [package]
-name = "spacegolf"
+name = "rymdbiljard"
 version = "0.1.0"
 authors = [
   "holmgr <viktor.holmgren@gmail.com>",
@@ -13,3 +13,4 @@ piston2d-graphics = "0.17.0"
 pistoncore-glutin_window = "0.31.0"
 piston2d-opengl_graphics = "0.34.0"
 nalgebra = "0.10.*"
+num-traits = "0.1.36"
