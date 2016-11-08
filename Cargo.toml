@@ -1,5 +1,5 @@
 [package]
-name = "spacegolf"
+name = "rymdbiljard"
 version = "0.1.0"
 authors = [
   "holmgr <viktor.holmgren@gmail.com>",
