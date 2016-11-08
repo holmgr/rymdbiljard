@@ -13,7 +13,9 @@ fn gravity_acc(mass: f64, distance: f64) -> f64 {
 }
 
 // Calculates the acceleration acting upon the ball from the given black holes
-pub fn calculate_gravity(blackholes: Vec<blackhole::Blackhole>, ball: poolball::Poolball) -> Vector2<f64> {
+pub fn calculate_gravity(blackholes: Vec<blackhole::Blackhole>,
+                         ball: poolball::Poolball)
+                         -> Vector2<f64> {
     let mut result = Vector2::new(0.0, 0.0);
     // Calculate each acceleration vector individually and add them to the reuslt
     for blackhole in &blackholes {
@@ -29,14 +31,14 @@ pub fn calculate_gravity(blackholes: Vec<blackhole::Blackhole>, ball: poolball::
     return result;
 }
 
-//Calculates the direction and size of the friction acceleration on the given ball
+// Calculates the direction and size of the friction acceleration on the given ball
 pub fn friction(poolball: poolball::Poolball) -> Vector2<f64> {
-	if poolball.velocity == Vector2::new(0.0,0.0){
-		return Vector2::new(0.0,0.0);
-	}
-	let ball_direction = poolball.velocity.normalize();
-	let friction = -1.0 * ball_direction * FRICTION; 
-	return friction;
+    if poolball.velocity == Vector2::new(0.0, 0.0) {
+        return Vector2::new(0.0, 0.0);
+    }
+    let ball_direction = poolball.velocity.normalize();
+    let friction = -1.0 * ball_direction * FRICTION;
+    return friction;
 }
 
 
@@ -55,18 +57,8 @@ fn test_gravity_acc() {
 // Basic test for gravity_acc. Has some error-margin because of rounding errors.
 #[test]
 fn test_calculate_gravity() {
-    let blackholes = vec![blackhole::Blackhole::new(
-                           Point2::new(0.0, 0.0),
-                           1.0,
-                           1.0,
-                           1.0,
-                       ),
-                       blackhole::Blackhole::new(
-                           Point2::new(0.0, 1.0),
-                           1.0,
-                           1.0,
-                           1.0,
-                       )];
+    let blackholes = vec![blackhole::Blackhole::new(Point2::new(0.0, 0.0), 1.0, 1.0, 1.0),
+                          blackhole::Blackhole::new(Point2::new(0.0, 1.0), 1.0, 1.0, 1.0)];
     let ball = poolball::Poolball::new(Point2::new(1.0, 1.0));
     let acc_vector = calculate_gravity(blackholes, ball);
     assert!((acc_vector.len() as f64) -
@@ -79,18 +71,8 @@ fn test_calculate_gravity() {
 // Testing that planets have no effect on the ball if it is out of their reach
 #[test]
 fn test_calculate_gravity_reach() {
-    let blackholes = vec![blackhole::Blackhole::new(
-                           Point2::new(0.0, 0.0),
-                           1.0,
-                           1.0,
-                           0.0,
-                       ),
-                       blackhole::Blackhole::new(
-                           Point2::new(0.0, 1.0),
-                           1.0,
-                           1.0,
-                           0.0,
-                       )];
+    let blackholes = vec![blackhole::Blackhole::new(Point2::new(0.0, 0.0), 1.0, 1.0, 0.0),
+                          blackhole::Blackhole::new(Point2::new(0.0, 1.0), 1.0, 1.0, 0.0)];
     let ball = poolball::Poolball::new(Point2::new(1.0, 1.0));
     let acc_vector = calculate_gravity(blackholes, ball);
     assert_eq!(acc_vector, Vector2::new(0.0, 0.0));
@@ -98,10 +80,10 @@ fn test_calculate_gravity_reach() {
 
 #[test]
 fn test_friction() {
-	let mut ball = poolball::Poolball::new(Point2::new(1.0, 1.0));
-	assert_eq!(friction(ball), Vector2::new(0.0,0.0));
+    let ball = poolball::Poolball::new(Point2::new(1.0, 1.0));
+    assert_eq!(friction(ball), Vector2::new(0.0, 0.0));
 
-	let mut ball2 = poolball::Poolball::new(Point2::new(1.0, 1.0));
-	ball2.velocity = Vector2::new(1.0,0.0);
-	assert_eq!(Vector2::new(-1.0, 0.0) * FRICTION, friction(ball2));
+    let mut ball2 = poolball::Poolball::new(Point2::new(1.0, 1.0));
+    ball2.velocity = Vector2::new(1.0, 0.0);
+    assert_eq!(Vector2::new(-1.0, 0.0) * FRICTION, friction(ball2));
 }

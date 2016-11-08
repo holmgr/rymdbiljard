@@ -37,7 +37,6 @@ impl Poolball {
     pub fn is_stationary(&self) -> bool {
         self.velocity.is_zero()
     }
-
 }
 
 #[test]
