@@ -1,7 +1,6 @@
 use std::f32;
 use na::{Vector2, Point2, Norm, FloatPoint};
-use golfball;
-use planet;
+use poolball;
 
 // Calculates the gravity force from an object with given mass at given distance
 fn gravity_acc(mass: f32, distance: f32) -> f32 {
@@ -12,7 +11,7 @@ fn gravity_acc(mass: f32, distance: f32) -> f32 {
 }
 
 // Calculates the acceleration acting upon the ball from the given planets
-pub fn calculate_gravity(planets: Vec<planet::Planet>, ball: golfball::Golfball) -> Vector2<f32> {
+pub fn calculate_gravity(planets: Vec<planet::Planet>, ball: poolball::Poolball) -> Vector2<f32> {
     let mut result = Vector2::new(0.0, 0.0);
     // Calculate each acceleration vector individually and add them to the reuslt
     for planet in &planets {
@@ -55,7 +54,7 @@ fn test_calculate_gravity() {
                            radius: 1.0,
                            reach: 1.0,
                        }];
-    let ball = golfball::Golfball::new(Point2::new(1.0, 1.0));
+    let ball = poolball::Poolball::new(Point2::new(1.0, 1.0));
     let acc_vector = calculate_gravity(planets, ball);
     assert!((acc_vector.len() as f32) -
             ((1.0 / (8.0_f32).sqrt() *
@@ -79,7 +78,7 @@ fn test_calculate_gravity_reach() {
                            radius: 1.0,
                            reach: 0.0,
                        }];
-    let ball = golfball::Golfball::new(Point2::new(1.0, 1.0));
+    let ball = poolball::Poolball::new(Point2::new(1.0, 1.0));
     let acc_vector = calculate_gravity(planets, ball);
     assert_eq!(acc_vector, Vector2::new(0.0, 0.0));
 }

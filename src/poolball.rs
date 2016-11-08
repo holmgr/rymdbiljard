@@ -12,7 +12,7 @@ const RADIUS: f32 = 1.0;
 
 impl Poolball {
     // Creates a new Golfball with a initial position and velocity
-    pub fn new(position: Point2<f32>) -> Golfball {
+    pub fn new(position: Point2<f32>) -> Poolball {
         Poolball {
             position: position,
             radius: RADIUS,
