@@ -1,6 +1,6 @@
 use na::{Vector2, Point2};
 
-pub struct Poolall {
+pub struct Poolball {
     pub position: Point2<f32>,
     pub radius: f32,
     pub mass: f32,
@@ -10,7 +10,7 @@ pub struct Poolall {
 const MASS: f32 = 0.1;
 const RADIUS: f32 = 1.0;
 
-impl Golfball {
+impl Poolball {
     // Creates a new Golfball with a initial position and velocity
     pub fn new(position: Point2<f32>) -> Golfball {
         Poolball {
