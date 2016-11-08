@@ -17,7 +17,7 @@ impl Golfball {
             position: position,
             radius: RADIUS,
             mass: MASS,
-            velocity: Vector2::new(0.0,0.0),
+            velocity: Vector2::new(0.0, 0.0),
         }
     }
 
