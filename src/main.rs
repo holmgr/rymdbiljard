@@ -13,6 +13,7 @@ use opengl_graphics::{GlGraphics, OpenGL};
 mod poolball;
 mod goalzone;
 mod physics;
+mod blackhole;
 
 pub struct App {
     gl: GlGraphics, // OpenGL drawing backend.
