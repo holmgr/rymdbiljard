@@ -1,6 +1,8 @@
-use na::{Vector2, Point2, Norm, FloatPoint};
+use na::{Vector2, Point2, Norm, FloatPoint, Dot};
 use poolball;
 use blackhole;
+use math;
+use std::f64;
 
 const FRICTION: f64 = 0.00001;
 
@@ -26,7 +28,6 @@ pub fn calculate_gravity(blackholes: Vec<blackhole::Blackhole>,
             let normalized_vector = direction_vector.normalize();
             result += normalized_vector * gravity_acc(blackhole.mass, distance);
         }
-
     }
     return result;
 }
@@ -40,6 +41,62 @@ pub fn friction(poolball: poolball::Poolball) -> Vector2<f64> {
     let friction = -1.0 * ball_direction * FRICTION;
     return friction;
 }
+
+pub fn check_collision(a: poolball::Poolball, b: poolball::Poolball) -> f64 {
+	// We pretend that b is stationary and compensate by subtracting its movement vector from a's
+	let moveVec = a.velocity - b.velocity;
+
+	//Calculate the distance between the centers and their combined radius
+	let mut dist = a.position.distance(&b.position);
+	let sumRadii = a.radius + b.radius;
+
+	//If we are not moving a large enough distance, we will not collide
+	dist-= sumRadii;
+	if math::calc_magnitude(moveVec) < dist {
+		return f64::INFINITY;
+	}
+
+	//Normalize the movement vector
+	let normalized_vector = moveVec.normalize(); 
+
+	//Calculate the direction between the two balls
+	let direction_between = (b.position - a.position) as Vector2<f64>;
+
+	//Calculate the dot product of the normalied vector and the direction
+	let dot_product = Vector2::dot(&direction_between, &normalized_vector);
+
+	//If the dot product is 0 or negative, we are moving in the opposite direction
+	if dot_product <= 0.0 {
+		return f64::INFINITY;
+	}
+
+	//Find the length of the direction vector between them
+	let length_c = math::calc_magnitude(direction_between);
+
+	//If the closest that A will get to B is larger than their
+	//combined radii, there will be no collision
+	let f = (length_c * length_c) - (dot_product * dot_product);
+	let sumRadiiSquared = sumRadii * sumRadii;
+	if(f > sumRadiiSquared){
+		return f64::INFINITY;
+	}
+
+
+	let t = sumRadiiSquared - f;
+
+	if(t < 0.0){
+		return f64::INFINITY;
+	}
+
+	let movement_distance = dot_product - t.sqrt();
+	let moveVec_magnitude = math::calc_magnitude(moveVec);
+
+	if(moveVec_magnitude < movement_distance){
+		return f64::INFINITY;
+	}
+
+	return movement_distance / moveVec_magnitude;
+ }
 
 
 // Basic tests for gravity_acc
@@ -86,4 +143,32 @@ fn test_friction() {
     let mut ball2 = poolball::Poolball::new(Point2::new(1.0, 1.0));
     ball2.velocity = Vector2::new(1.0, 0.0);
     assert_eq!(Vector2::new(-1.0, 0.0) * FRICTION, friction(ball2));
+}
+
+#[test]
+fn test_check_collision_simple() {
+	let mut ball1 = poolball::Poolball::new(Point2::new(0.0,0.0));
+	let ball2 = poolball::Poolball::new(Point2::new(3.0,0.0));
+
+	ball1.velocity = Vector2::new(1.0,0.0);
+
+	let collision_time = check_collision(ball1,ball2);
+
+	assert_eq!(collision_time, 1.0);
+}
+
+#[test]
+fn test_check_collision_advanced() {
+	let mut ball1 = poolball::Poolball::new(Point2::new(0.0,0.0));
+	let mut ball2 = poolball::Poolball::new(Point2::new(4.0,0.0));
+
+	ball1.velocity = Vector2::new(1.0,1.0);
+	ball2.velocity = Vector2::new(-1.0,1.0);
+
+	ball1.set_velocity(&Vector2::new(1.0, 1.0));
+	ball2.set_velocity(&Vector2::new(-1.0, 1.0));
+
+	let collision_time = check_collision(ball1,ball2);
+
+	assert_eq!(collision_time, 1.0);
 }
