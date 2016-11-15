@@ -18,7 +18,7 @@ mod poolball;
 mod goalzone;
 mod physics;
 mod blackhole;
-
+mod math;
 
 pub struct Game {
     gl: GlGraphics, // OpenGL drawing backend
