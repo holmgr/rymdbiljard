@@ -43,14 +43,17 @@ impl Game {
                               (args.height as f64) * self.cueball.position.y);
 
         self.gl.draw(args.viewport(), |c, gl| {
-            cue.draw(circle(cue_x, cue_y, BALL_SIZE), &c.draw_state, c.transform, gl);
+            cue.draw(circle(cue_x, cue_y, BALL_SIZE),
+                     &c.draw_state,
+                     c.transform,
+                     gl);
         });
 
         // Draw balls
         let ball_drawer = Ellipse::new(RED);
         for ball in &self.balls {
             let (x, y) = ((args.width as f64) * ball.position.x,
-                            (args.height as f64) * ball.position.y);
+                          (args.height as f64) * ball.position.y);
             self.gl.draw(args.viewport(), |c, gl| {
                 ball_drawer.draw(circle(x, y, BALL_SIZE), &c.draw_state, c.transform, gl);
             });
