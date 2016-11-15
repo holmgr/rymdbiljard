@@ -1,4 +1,7 @@
 use na::{Vector2, Point2};
+use piston::input::RenderArgs;
+use opengl_graphics::GlGraphics;
+use graphics::ellipse;
 use num_traits::Zero;
 
 pub struct Poolball {
@@ -36,6 +39,21 @@ impl Poolball {
     // Returns true if the poolball is stationary
     pub fn is_stationary(&self) -> bool {
         self.velocity.is_zero()
+    }
+
+    // Renders itself using the given graphics and ellipse
+    pub fn render(&self, draw_object: ellipse::Ellipse, args: &RenderArgs, gl: &mut GlGraphics) {
+
+        gl.draw(args.viewport(), |c, gl| {
+
+            // Draw the cue ball
+            draw_object.draw(ellipse::circle((args.width as f64) * self.position.x,
+                                             (args.height as f64) * self.position.y,
+                                             self.radius),
+                             &c.draw_state,
+                             c.transform,
+                             gl);
+        });
     }
 }
 

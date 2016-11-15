@@ -21,7 +21,6 @@ mod blackhole;
 
 
 pub struct Game {
-    gl: GlGraphics, // OpenGL drawing backend
     cueball: poolball::Poolball,
     balls: Vec<poolball::Poolball>,
     blackholes: Vec<blackhole::Blackhole>,
@@ -31,36 +30,25 @@ pub struct Game {
 const BALL_SIZE: f64 = 10.0;
 
 impl Game {
-    fn render(&mut self, args: &RenderArgs) {
+    fn render(&mut self, gl: &mut GlGraphics, args: &RenderArgs) {
         use graphics::*;
 
         const WHITE: [f32; 4] = [1.0, 1.0, 1.0, 1.0];
         const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
 
-        // Draw the cue ball
-        let cue = Ellipse::new(WHITE);
-        let (cue_x, cue_y) = ((args.width as f64) * self.cueball.position.x,
-                              (args.height as f64) * self.cueball.position.y);
+        let red_ellipse = Ellipse::new(RED);
+        let white_ellipse = Ellipse::new(WHITE);
 
-        self.gl.draw(args.viewport(), |c, gl| {
-            cue.draw(circle(cue_x, cue_y, BALL_SIZE),
-                     &c.draw_state,
-                     c.transform,
-                     gl);
-        });
+        // Draw cue ball
+        self.cueball.render(white_ellipse, args, gl);
 
-        // Draw balls
-        let ball_drawer = Ellipse::new(RED);
+        // Draw all other balls
         for ball in &self.balls {
-            let (x, y) = ((args.width as f64) * ball.position.x,
-                          (args.height as f64) * ball.position.y);
-            self.gl.draw(args.viewport(), |c, gl| {
-                ball_drawer.draw(circle(x, y, BALL_SIZE), &c.draw_state, c.transform, gl);
-            });
+            ball.render(red_ellipse, args, gl);
         }
     }
 
-    fn update(&mut self, args: &UpdateArgs) {}
+    fn update(&mut self, gl: &mut GlGraphics, args: &UpdateArgs) {}
 }
 
 fn main() {
@@ -73,6 +61,7 @@ fn main() {
         .exit_on_esc(true)
         .build()
         .unwrap();
+    let mut gl = GlGraphics::new(opengl);
 
     let balls = vec![
         poolball::Poolball::new(Point2::new(0.1, 0.1)),
@@ -82,7 +71,6 @@ fn main() {
     ];
 
     let mut game = Game {
-        gl: GlGraphics::new(opengl),
         cueball: poolball::Poolball::new(Point2::new(0.5, 0.9)),
         balls: balls,
         blackholes: Vec::new(),
@@ -93,11 +81,11 @@ fn main() {
     let mut events = window.events();
     while let Some(e) = events.next(&mut window) {
         if let Some(r) = e.render_args() {
-            game.render(&r);
+            game.render(&mut gl, &r);
         }
 
         if let Some(u) = e.update_args() {
-            game.update(&u);
+            game.update(&mut gl, &u);
         }
     }
 }
