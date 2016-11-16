@@ -1,6 +1,7 @@
 use na::{Vector2, Point2};
 use piston::input::RenderArgs;
 use opengl_graphics::GlGraphics;
+use graphics::Transformed;
 use graphics::ellipse;
 use num_traits::Zero;
 
@@ -12,7 +13,7 @@ pub struct Poolball {
 }
 
 const MASS: f64 = 0.1;
-const RADIUS: f64 = 1.0;
+const RADIUS: f64 = 0.01;
 
 impl Poolball {
     // Creates a new Golfball with a initial position and velocity
@@ -46,12 +47,13 @@ impl Poolball {
 
         gl.draw(args.viewport(), |c, gl| {
 
+            let trans = c.transform
+                .scale(args.width as f64, args.height as f64)
+                .trans(self.position.x, self.position.y);
             // Draw the cue ball
-            draw_object.draw(ellipse::circle((args.width as f64) * self.position.x,
-                                             (args.height as f64) * self.position.y,
-                                             self.radius),
+            draw_object.draw(ellipse::circle(0.0, 0.0, self.radius),
                              &c.draw_state,
-                             c.transform,
+                             trans,
                              gl);
         });
     }
