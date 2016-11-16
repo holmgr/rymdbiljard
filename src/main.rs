@@ -12,7 +12,7 @@ use piston::input::*;
 use glutin_window::GlutinWindow as Window;
 use opengl_graphics::{GlGraphics, OpenGL};
 use piston_window::ellipse::circle;
-use na::Point2;
+use na::{Point2, Vector2};
 
 mod poolball;
 mod goalzone;
@@ -54,7 +54,13 @@ impl Game {
         }
     }
 
-    fn update(&mut self, gl: &mut GlGraphics, args: &UpdateArgs) {}
+    fn update(&mut self, gl: &mut GlGraphics, args: &UpdateArgs) {
+        self.cueball.update(Vector2::new(0.0, 0.0), args.dt);
+
+        for ball in &mut self.balls {
+            ball.update(Vector2::new(0.0, 0.0), args.dt);
+        }
+    }
 }
 
 fn main() {
@@ -83,6 +89,7 @@ fn main() {
         goalzones: Vec::new(),
     };
 
+    game.cueball.set_velocity(&Vector2::new(0.01, -0.01));
 
     let mut events = window.events();
     while let Some(e) = events.next(&mut window) {
