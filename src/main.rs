@@ -33,6 +33,12 @@ impl Game {
     fn render(&mut self, gl: &mut GlGraphics, args: &RenderArgs) {
         use graphics::*;
 
+        const BLACK: [f32; 4] = [0.0, 0.0, 0.0, 1.0];
+        gl.draw(args.viewport(), |c, g| {
+            // Clear the screen.
+            clear(BLACK, g);
+        });
+
         const WHITE: [f32; 4] = [1.0, 1.0, 1.0, 1.0];
         const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
 
