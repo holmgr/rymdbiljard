@@ -16,7 +16,11 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(cueball: poolball::Poolball, balls: Vec<poolball::Poolball>, blackholes: Vec<blackhole::Blackhole>, goalzones: Vec<goalzone::Goalzone>) -> Self {
+    pub fn new(cueball: poolball::Poolball,
+               balls: Vec<poolball::Poolball>,
+               blackholes: Vec<blackhole::Blackhole>,
+               goalzones: Vec<goalzone::Goalzone>)
+               -> Self {
         Game {
             cueball: cueball,
             balls: balls,
