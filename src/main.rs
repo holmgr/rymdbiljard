@@ -45,7 +45,7 @@ impl Game {
 
         const WHITE: [f32; 4] = [1.0, 1.0, 1.0, 1.0];
 
-        // Draw scoe
+        // Draw score
         gl.draw(args.viewport(), |c, gl| {
 
             let trans = c.transform
