@@ -1,6 +1,7 @@
 use na::{Vector2, Point2, Norm, FloatPoint, Dot};
 use poolball;
 use blackhole;
+use std::f64;
 
 const FRICTION: f64 = 0.00001;
 
@@ -41,33 +42,55 @@ pub fn friction(poolball: poolball::Poolball) -> Vector2<f64> {
     return friction;
 }
 
-//Calculates the new velocities for 2 colloding bals after time delta_time,(delta_time is in seconds)
-pub fn ball_ball__collision(ball1: &mut poolball::Poolball, ball2: &mut poolball::Poolball, delta_time: f64) {
-	//Find the Normal for the 2 balls
-	let mut n: Vector2<f64> = ball1.position - ball2.position;
-	n = n.normalize();
+// Calculates the new velocities for 2 colloding bals after time delta_time,
+// (delta_time is in seconds)
+pub fn ball_ball__collision(ball1: &mut poolball::Poolball,
+                            ball2: &mut poolball::Poolball,
+                            delta_time: f64) {
+    // Find the Normal for the 2 balls
+    let mut n: Vector2<f64> = ball1.position - ball2.position;
+    n = n.normalize();
 
-	// find the lengths of the component of each of the movements
-	let a1 = ball1.velocity.dot(&n);
-	let a2 = ball2.velocity.dot(&n);
+    // find the lengths of the component of each of the movements
+    let a1 = ball1.velocity.dot(&n);
+    let a2 = ball2.velocity.dot(&n);
 
-	//Calculate a common component in the formula
-	// optimizedP
-	let optimized_p: f64 = (2.0*(a1-a2))/(ball1.mass+ball2.mass);
+    // Calculate a common component in the formula
+    // optimizedP
+    let optimized_p: f64 = (2.0 * (a1 - a2)) / (ball1.mass + ball2.mass);
 
-	//Calculate the new movementvector for the balls
-	let new_v1 = ball1.velocity - optimized_p*ball1.mass*n;
-	let new_v2 = ball2.velocity + optimized_p*ball2.mass*n;
+    // Calculate the new movementvector for the balls
+    let new_v1 = ball1.velocity - optimized_p * ball1.mass * n;
+    let new_v2 = ball2.velocity + optimized_p * ball2.mass * n;
 
-	//First set the new positions for the balls, after delta_time.
-	//Then update the new velocities for the balls
-	ball1.position = ball1.position + ball1.velocity*delta_time;
-	ball2.position = ball2.position + ball2.velocity*delta_time;
+    // First set the new positions for the balls, after delta_time.
+    // Then update the new velocities for the balls
+    ball1.position = ball1.position + ball1.velocity * delta_time;
+    ball2.position = ball2.position + ball2.velocity * delta_time;
 
-	// Set the new velocities for the balls
-	ball1.velocity = new_v1;
-	ball2.velocity = new_v2;
-} 
+    // Set the new velocities for the balls
+    ball1.velocity = new_v1;
+    ball2.velocity = new_v2;
+}
+
+pub fn time_to_wall_collision(ball: &poolball::Poolball, delta_time: f64) -> f64 {
+    // will be the distance to the wall in the x direction the ball is moving
+    let horizontal_distance_to_wall = (ball.position.x - (ball.velocity.x.signum() / 2.0 + 0.5))
+        .abs() - ball.radius;
+    // will be the distance to the wall in the y direction the ball is moving
+    let vertical_distance_to_wall = (ball.position.y - (ball.velocity.y.signum() / 2.0 + 0.5))
+        .abs() - ball.radius;
+
+    let x_time_ratio = horizontal_distance_to_wall / (ball.velocity.x.abs() * delta_time);
+    let y_time_ratio = vertical_distance_to_wall / (ball.velocity.y.abs() * delta_time);
+
+    let min_ratio = x_time_ratio.min(y_time_ratio);
+    if (min_ratio > 1.0) {
+        return f64::INFINITY;
+    } else {
+        return min_ratio;
+    }
+}
 
 
 // Basic tests for gravity_acc
@@ -119,34 +142,57 @@ fn test_friction() {
 
 #[test]
 fn test_simpl_ball_ball_collision_calculation() {
-	let mut ball1 = poolball::Poolball::new(Point2::new(0.0,0.0));
-	ball1.mass = 1.0;
-	ball1.velocity = Vector2::new(1.0,0.0);
+    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0));
+    ball1.mass = 1.0;
+    ball1.velocity = Vector2::new(1.0, 0.0);
 
-	let mut ball2 = poolball::Poolball::new(Point2::new(4.0,0.0));
-	ball2.mass = 1.0;
-	ball2.velocity = Vector2::new(-1.0,0.0);
+    let mut ball2 = poolball::Poolball::new(Point2::new(4.0, 0.0));
+    ball2.mass = 1.0;
+    ball2.velocity = Vector2::new(-1.0, 0.0);
 
-	ball_ball__collision(&mut ball1,&mut ball2,1.0);
-	assert_eq!(ball1.position,Point2::new(1.0,0.0));
-	assert_eq!(ball2.position,Point2::new(3.0,0.0));
-	assert_eq!(ball1.velocity, Vector2::new(-1.0,0.0));
-	assert_eq!(ball2.velocity, Vector2::new(1.0,0.0));
+    ball_ball__collision(&mut ball1, &mut ball2, 1.0);
+    assert_eq!(ball1.position, Point2::new(1.0, 0.0));
+    assert_eq!(ball2.position, Point2::new(3.0, 0.0));
+    assert_eq!(ball1.velocity, Vector2::new(-1.0, 0.0));
+    assert_eq!(ball2.velocity, Vector2::new(1.0, 0.0));
 }
 
 #[test]
 fn test_diagonal_ball_ball_collision_calculation() {
-	let mut ball1 = poolball::Poolball::new(Point2::new(0.0,0.0));
-	ball1.mass = 1.0;
-	ball1.velocity = Vector2::new(1.0,1.0);
+    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0));
+    ball1.mass = 1.0;
+    ball1.velocity = Vector2::new(1.0, 1.0);
 
-	let mut ball2 = poolball::Poolball::new(Point2::new(4.0,0.0));
-	ball2.mass = 1.0;
-	ball2.velocity = Vector2::new(-1.0,1.0);
+    let mut ball2 = poolball::Poolball::new(Point2::new(4.0, 0.0));
+    ball2.mass = 1.0;
+    ball2.velocity = Vector2::new(-1.0, 1.0);
 
-	ball_ball__collision(&mut ball1,&mut ball2,1.0);
-	assert_eq!(ball1.position,Point2::new(1.0,1.0));
-	assert_eq!(ball2.position,Point2::new(3.0,1.0));
-	assert_eq!(ball1.velocity, Vector2::new(-1.0,1.0));
-	assert_eq!(ball2.velocity, Vector2::new(1.0,1.0));
+    ball_ball__collision(&mut ball1, &mut ball2, 1.0);
+    assert_eq!(ball1.position, Point2::new(1.0, 1.0));
+    assert_eq!(ball2.position, Point2::new(3.0, 1.0));
+    assert_eq!(ball1.velocity, Vector2::new(-1.0, 1.0));
+    assert_eq!(ball2.velocity, Vector2::new(1.0, 1.0));
+}
+
+#[test]
+fn test_time_to_wall_collision() {
+    let mut ball = poolball::Poolball::new(Point2::new(0.4, 0.5));
+    ball.radius = 0.1;
+    ball.velocity = Vector2::new(1.0, 0.0);
+    assert_eq!(time_to_wall_collision(&ball, 0.5), 1.0);
+    ball.position = Point2::new(0.6, 0.5);
+    ball.velocity = Vector2::new(-1.0, 0.0);
+    assert_eq!(time_to_wall_collision(&ball, 0.5), 1.0);
+    ball.position = Point2::new(0.5, 0.4);
+    ball.velocity = Vector2::new(0.0, 1.0);
+    assert_eq!(time_to_wall_collision(&ball, 0.5), 1.0);
+    ball.position = Point2::new(0.5, 0.6);
+    ball.velocity = Vector2::new(0.0, -1.0);
+    assert_eq!(time_to_wall_collision(&ball, 0.5), 1.0);
+    ball.position = Point2::new(0.4, 0.4);
+    ball.velocity = Vector2::new(1.0, 1.0);
+    assert_eq!(time_to_wall_collision(&ball, 0.5), 1.0);
+    ball.position = Point2::new(0.6, 0.5);
+    ball.velocity = Vector2::new(-2.0, 0.0);
+    assert_eq!(time_to_wall_collision(&ball, 0.5), 0.5)
 }
