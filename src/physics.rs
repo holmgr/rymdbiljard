@@ -47,6 +47,7 @@ pub fn friction(poolball: poolball::Poolball) -> Vector2<f64> {
 pub fn ball_ball_collision(ball1: &mut poolball::Poolball,
                             ball2: &mut poolball::Poolball,
                             delta_time: f64) {
+
     // Find the Normal for the 2 balls
     let mut n: Vector2<f64> = ball1.position - ball2.position;
     n = n.normalize();
@@ -62,11 +63,6 @@ pub fn ball_ball_collision(ball1: &mut poolball::Poolball,
     // Calculate the new movementvector for the balls
     let new_v1 = ball1.velocity - optimized_p * ball1.mass * n;
     let new_v2 = ball2.velocity + optimized_p * ball2.mass * n;
-
-    // First set the new positions for the balls, after delta_time.
-    // Then update the new velocities for the balls
-    ball1.position = ball1.position + ball1.velocity * delta_time;
-    ball2.position = ball2.position + ball2.velocity * delta_time;
 
     // Set the new velocities for the balls
     ball1.velocity = new_v1;
@@ -236,9 +232,7 @@ fn test_simpl_ball_ball_collision_calculation() {
     ball2.mass = 1.0;
     ball2.velocity = Vector2::new(-1.0, 0.0);
 
-    ball_ball__collision(&mut ball1, &mut ball2, 1.0);
-    assert_eq!(ball1.position, Point2::new(1.0, 0.0));
-    assert_eq!(ball2.position, Point2::new(3.0, 0.0));
+    ball_ball_collision(&mut ball1, &mut ball2, 1.0);
     assert_eq!(ball1.velocity, Vector2::new(-1.0, 0.0));
     assert_eq!(ball2.velocity, Vector2::new(1.0, 0.0));
 }
@@ -253,9 +247,7 @@ fn test_diagonal_ball_ball_collision_calculation() {
     ball2.mass = 1.0;
     ball2.velocity = Vector2::new(-1.0, 1.0);
 
-    ball_ball__collision(&mut ball1, &mut ball2, 1.0);
-    assert_eq!(ball1.position, Point2::new(1.0, 1.0));
-    assert_eq!(ball2.position, Point2::new(3.0, 1.0));
+    ball_ball_collision(&mut ball1, &mut ball2, 1.0);
     assert_eq!(ball1.velocity, Vector2::new(-1.0, 1.0));
     assert_eq!(ball2.velocity, Vector2::new(1.0, 1.0));
 }
