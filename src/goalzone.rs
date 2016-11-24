@@ -1,9 +1,8 @@
-use na::{Vector2, Point2};
+use na::Point2;
 use piston::input::RenderArgs;
 use opengl_graphics::GlGraphics;
 use graphics::Transformed;
 use graphics::ellipse;
-use num_traits::Zero;
 use na::FloatPoint;
 use poolball;
 
@@ -49,7 +48,7 @@ impl Goalzone {
 fn test_reach() {
     // Inside range, should succeed
     let ball = poolball::Poolball::new(Point2::new(0.0, 0.0));
-    let goalzone = Goalzone::new(Point2::new(0.0, 10.0));
+    let goalzone = Goalzone::new(Point2::new(0.0, 0.0));
     assert!(goalzone.reached_goal(&ball));
 
     // Outside of range should fail
