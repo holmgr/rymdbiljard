@@ -144,7 +144,24 @@ pub fn time_to_wall_collision(ball: &poolball::Poolball, delta_time: f64) -> f64
     }
 }
 
-pub fn ball_wall_collision(ball: poolball::Poolball) {}
+// recalculates the new velocities for the ball given collision with a wall
+pub fn ball_wall_collision(ball: &mut poolball::Poolball) {
+    // will be the distance to the wall in the x direction the ball is moving
+    let horizontal_distance_to_wall = ((ball.position.x - (ball.velocity.x.signum() / 2.0 + 0.5))
+        .abs() - ball.radius).abs();
+    // will be the distance to the wall in the y direction the ball is moving
+    let vertical_distance_to_wall = ((ball.position.y - (ball.velocity.y.signum() / 2.0 + 0.5))
+        .abs() - ball.radius).abs();
+
+    // change the velocity given which wall was hit (the closest)
+    let mut tmp = ball.velocity;
+    if (horizontal_distance_to_wall < vertical_distance_to_wall) {
+        tmp.x = tmp.x*(-1.0);
+    } else {
+        tmp.y = tmp.y*(-1.0);
+    }
+     ball.set_velocity(&tmp);
+}
 
 // Basic tests for gravity_acc
 #[test]
@@ -272,4 +289,25 @@ fn test_time_to_wall_collision() {
     ball.position = Point2::new(0.6, 0.5);
     ball.velocity = Vector2::new(-2.0, 0.0);
     assert_eq!(time_to_wall_collision(&ball, 0.5), 0.5)
+}
+
+#[test]
+fn test_ball_wall_collision() {
+    let mut ball = poolball::Poolball::new(Point2::new(0.9, 0.5));
+    ball.radius = 0.1;
+    ball.velocity = Vector2::new(1.0, 0.0);
+    ball_wall_collision(&mut ball);
+    assert_eq!(ball.velocity,Vector2::new(-1.0,0.0));
+    ball.position = Point2::new(0.5, 0.9);
+    ball.velocity = Vector2::new(0.0, 1.0);
+    ball_wall_collision(&mut ball);
+    assert_eq!(ball.velocity,Vector2::new(0.0,-1.0));
+    ball.position = Point2::new(0.5, 0.1);
+    ball.velocity = Vector2::new(0.0, -1.0);
+    ball_wall_collision(&mut ball);
+    assert_eq!(ball.velocity,Vector2::new(0.0,1.0));
+    ball.position = Point2::new(0.1, 0.9);
+    ball.velocity = Vector2::new(-1.0, 0.0);
+    ball_wall_collision(&mut ball);
+    assert_eq!(ball.velocity,Vector2::new(1.0,0.0));
 }
