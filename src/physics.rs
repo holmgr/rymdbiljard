@@ -45,8 +45,7 @@ pub fn friction(poolball: poolball::Poolball) -> Vector2<f64> {
 // Calculates the new velocities for 2 colloding bals after time delta_time,
 // (delta_time is in seconds)
 pub fn ball_ball_collision(ball1: &mut poolball::Poolball,
-                            ball2: &mut poolball::Poolball,
-                            delta_time: f64) {
+                            ball2: &mut poolball::Poolball) {
 
     // Find the Normal for the 2 balls
     let mut n: Vector2<f64> = ball1.position - ball2.position;
@@ -145,7 +144,7 @@ pub fn time_to_wall_collision(ball: &poolball::Poolball, delta_time: f64) -> f64
     }
 }
 
-
+pub fn ball_wall_collision(ball: poolball::Poolball) {}
 
 // Basic tests for gravity_acc
 #[test]
@@ -232,7 +231,7 @@ fn test_simpl_ball_ball_collision_calculation() {
     ball2.mass = 1.0;
     ball2.velocity = Vector2::new(-1.0, 0.0);
 
-    ball_ball_collision(&mut ball1, &mut ball2, 1.0);
+    ball_ball_collision(&mut ball1, &mut ball2);
     assert_eq!(ball1.velocity, Vector2::new(-1.0, 0.0));
     assert_eq!(ball2.velocity, Vector2::new(1.0, 0.0));
 }
@@ -247,7 +246,7 @@ fn test_diagonal_ball_ball_collision_calculation() {
     ball2.mass = 1.0;
     ball2.velocity = Vector2::new(-1.0, 1.0);
 
-    ball_ball_collision(&mut ball1, &mut ball2, 1.0);
+    ball_ball_collision(&mut ball1, &mut ball2);
     assert_eq!(ball1.velocity, Vector2::new(-1.0, 1.0));
     assert_eq!(ball2.velocity, Vector2::new(1.0, 1.0));
 }
