@@ -39,6 +39,14 @@ impl Game {
             clear(BLACK, g);
         });
 
+        const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 0.4];
+
+        // Draw goalzones
+        let green_ellipse = Ellipse::new(GREEN);
+        for goalzone in &self.goalzones {
+            goalzone.render(green_ellipse, args, gl);
+        }
+
         const WHITE: [f32; 4] = [1.0, 1.0, 1.0, 1.0];
         const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
 
@@ -82,11 +90,18 @@ fn main() {
         poolball::Poolball::new(Point2::new(0.6, 0.6)),
     ];
 
+    let goalzones = vec![
+        goalzone::Goalzone::new(Point2::new(0.0, 0.0)),
+        goalzone::Goalzone::new(Point2::new(1.0, 0.0)),
+        goalzone::Goalzone::new(Point2::new(0.0, 1.0)),
+        goalzone::Goalzone::new(Point2::new(1.0, 1.0)),
+    ];
+
     let mut game = Game {
         cueball: poolball::Poolball::new(Point2::new(0.5, 0.9)),
         balls: balls,
         blackholes: Vec::new(),
-        goalzones: Vec::new(),
+        goalzones: goalzones,
     };
 
     game.cueball.set_velocity(&Vector2::new(0.01, -0.01));

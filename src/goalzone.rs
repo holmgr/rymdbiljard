@@ -1,4 +1,10 @@
-use na::{Point2, FloatPoint};
+use na::{Vector2, Point2};
+use piston::input::RenderArgs;
+use opengl_graphics::GlGraphics;
+use graphics::Transformed;
+use graphics::ellipse;
+use num_traits::Zero;
+use na::FloatPoint;
 use poolball;
 
 // Implements a basic goalzone to be used in each corner of the playing field.
@@ -6,7 +12,7 @@ pub struct Goalzone {
     position: Point2<f64>,
     radius: f64,
 }
-const RADIUS: f64 = 10.0;
+const RADIUS: f64 = 0.05;
 
 impl Goalzone {
     // Creates a new goalzone at the given position
@@ -20,6 +26,22 @@ impl Goalzone {
     // Returns whether a given poolball is within the goalzone
     pub fn reached_goal(&self, ball: &poolball::Poolball) -> bool {
         self.position.distance(&ball.position) <= self.radius + ball.radius
+    }
+
+    // Renders itself using the given graphics and ellipse
+    pub fn render(&self, draw_object: ellipse::Ellipse, args: &RenderArgs, gl: &mut GlGraphics) {
+
+        gl.draw(args.viewport(), |c, gl| {
+
+            let trans = c.transform
+                .scale(args.width as f64, args.height as f64)
+                .trans(self.position.x, self.position.y);
+            // Draw the cue ball
+            draw_object.draw(ellipse::circle(0.0, 0.0, self.radius),
+                             &c.draw_state,
+                             trans,
+                             gl);
+        });
     }
 }
 
