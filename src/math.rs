@@ -16,4 +16,10 @@ fn test_magnitude() {
     let magnitude2 = calc_magnitude(vector2);
     assert_eq!(magnitude2, (5.0_f64).sqrt());
 
+
+    let vector3 = Vector2::new(2.0,0.0);
+    let magnitude3 = calc_magnitude(vector3);
+    assert_eq!(magnitude3,2.0);
+
+
 }
