@@ -5,6 +5,7 @@ use graphics::Transformed;
 use graphics::ellipse;
 use num_traits::Zero;
 
+#[derive(Clone, Debug)]
 pub struct Poolball {
     pub position: Point2<f64>,
     pub radius: f64,

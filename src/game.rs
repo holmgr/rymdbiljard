@@ -2,10 +2,32 @@ use piston::input::*;
 use opengl_graphics::GlGraphics;
 use opengl_graphics::glyph_cache::GlyphCache;
 use na::Vector2;
+use std::cmp::Ordering;
+use std::f64;
 
 use poolball;
 use goalzone;
 use blackhole;
+use physics;
+use math;
+
+struct CollisionPair {
+    index_a: Option<usize>, // None signifies cueball
+    index_b: Option<usize>,
+    time: f64,
+}
+
+impl PartialOrd for CollisionPair {
+    fn partial_cmp(&self, other: &CollisionPair) -> Option<Ordering> {
+        self.time.partial_cmp(&other.time)
+    }
+}
+
+impl PartialEq for CollisionPair {
+    fn eq(&self, other: &CollisionPair) -> bool {
+        self.time == other.time
+    }
+}
 
 pub struct Game {
     cueball: poolball::Poolball,
@@ -73,10 +95,108 @@ impl Game {
     }
 
     pub fn update(&mut self, args: &UpdateArgs) {
-        self.cueball.update(Vector2::new(0.0, 0.0), args.dt);
+
+        let mut time_left = args.dt;
+        loop {
+            let first = self.get_first_collision_pair();
+            if first.time <= time_left {
+                self.cueball.update(Vector2::new(0.0, 0.0), first.time);
+
+                for ball in &mut self.balls {
+                    ball.update(Vector2::new(0.0, 0.0), first.time);
+                }
+
+                time_left -= first.time;
+
+
+                let mut ball_a = self.cueball.clone();
+                match first.index_a {
+                    Some(index) => {
+                        ball_a = self.balls.get_mut(index).unwrap().clone();
+                    }
+                    None => {}
+                }
+
+                match first.index_b {
+                    Some(index) => {
+                        let mut ball_b = self.balls.get_mut(index).unwrap().clone();
+                        physics::ball_ball_collision(&mut ball_a, &mut ball_b);
+                        self.balls[index] = ball_b;
+                    }
+                    None => {
+                        physics::ball_wall_collision(&mut ball_a);
+                    }
+                }
+
+                match first.index_a {
+                    Some(index) => {
+                        self.balls[index] = ball_a;
+                    }
+                    None => self.cueball = ball_a,
+                }
+
+            } else {
+                break;
+            }
+        }
+        self.cueball.update(Vector2::new(0.0, 0.0), time_left);
 
         for ball in &mut self.balls {
-            ball.update(Vector2::new(0.0, 0.0), args.dt);
+            ball.update(Vector2::new(0.0, 0.0), time_left);
         }
+    }
+
+    fn get_first_collision_pair(&self) -> CollisionPair {
+
+        let ball = &self.cueball;
+        let time_wall = physics::time_to_wall_collision(&ball);
+
+        let mut earliest_collision_pair = CollisionPair {
+            index_a: None,
+            index_b: None,
+            time: time_wall,
+        };
+
+        for i in 0..self.balls.len() {
+            let second = &self.balls[i];
+
+            let time_ball = physics::check_collision(ball, second);
+            if time_ball < earliest_collision_pair.time {
+                earliest_collision_pair = CollisionPair {
+                    index_a: None,
+                    index_b: Some(i),
+                    time: time_ball,
+                }
+            }
+        }
+
+        for i in 0..self.balls.len() {
+            let ball = &self.balls[i];
+
+            let time_wall = physics::time_to_wall_collision(&ball);
+
+            if time_wall < earliest_collision_pair.time {
+                earliest_collision_pair = CollisionPair {
+                    index_a: Some(i),
+                    index_b: None,
+                    time: time_wall,
+                }
+            }
+
+            for j in i + 1..self.balls.len() {
+                let second = &self.balls[j];
+
+                let time_ball = physics::check_collision(ball, second);
+                if time_ball < earliest_collision_pair.time {
+                    earliest_collision_pair = CollisionPair {
+                        index_a: Some(i),
+                        index_b: Some(j),
+                        time: time_ball,
+                    }
+                }
+            }
+
+        }
+        earliest_collision_pair
     }
 }
