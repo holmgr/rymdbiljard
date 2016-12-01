@@ -203,7 +203,10 @@ fn test_friction() {
 #[test]
 fn test_check_collision_simple() {
 	let mut ball1 = poolball::Poolball::new(Point2::new(0.0,0.0));
-	let ball2 = poolball::Poolball::new(Point2::new(3.0,0.0));
+	ball1.radius = 1.0;
+	let mut ball2 = poolball::Poolball::new(Point2::new(3.0,0.0));
+	ball2.radius = 1.0;
+
 
 	ball1.velocity = Vector2::new(1.0,0.0);
 
@@ -212,7 +215,9 @@ fn test_check_collision_simple() {
 	assert_eq!(collision_time, 1.0);
 
 	let mut ball1 = poolball::Poolball::new(Point2::new(0.0,0.0));
-	let ball2 = poolball::Poolball::new(Point2::new(4.0,0.0));
+	ball1.radius = 1.0;
+	let mut ball2 = poolball::Poolball::new(Point2::new(4.0,0.0));
+	ball2.radius = 1.0;
 
 	ball1.velocity = Vector2::new(1.0,0.0);
 
@@ -224,8 +229,10 @@ fn test_check_collision_simple() {
 #[test]
 fn test_check_collision_advanced() {
 	let mut ball1 = poolball::Poolball::new(Point2::new(0.0,0.0));
+	ball1.radius = 1.0;
 	let mut ball2 = poolball::Poolball::new(Point2::new(4.0,0.0));
-
+	ball2.radius = 1.0;
+	
 	ball1.velocity = Vector2::new(1.0,1.0);
 	ball2.velocity = Vector2::new(-1.0,1.0);
 
