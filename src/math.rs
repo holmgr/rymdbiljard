@@ -1,4 +1,4 @@
-use na::{Vector2, Point2, Norm, FloatPoint};
+use na::Vector2;
 
 // Calculates the magnitude of the vector
 pub fn calc_magnitude(vector: Vector2<f64>) -> f64 {

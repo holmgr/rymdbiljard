@@ -9,10 +9,12 @@ use poolball;
 use goalzone;
 use blackhole;
 use physics;
-use math;
 
+// Struct used for holding information about a ball-ball collision or a
+// ball-wall collision (index_B being None).
+// Index_a being None signifies that it is the cueball
 struct CollisionPair {
-    index_a: Option<usize>, // None signifies cueball
+    index_a: Option<usize>,
     index_b: Option<usize>,
     time: f64,
 }
@@ -51,11 +53,12 @@ impl Game {
             score: 0,
         }
     }
+
     pub fn render(&mut self, gl: &mut GlGraphics, args: &RenderArgs, cache: &mut GlyphCache) {
         use graphics::*;
 
         const BLACK: [f32; 4] = [0.0, 0.0, 0.0, 1.0];
-        gl.draw(args.viewport(), |c, g| {
+        gl.draw(args.viewport(), |_, g| {
             // Clear the screen.
             clear(BLACK, g);
         });
@@ -94,6 +97,8 @@ impl Game {
         }
     }
 
+    // Updates the positon, speeds etc for all cueballs aswell as handling the
+    // collisions
     pub fn update(&mut self, args: &UpdateArgs) {
 
         let mut time_left = args.dt;
@@ -108,7 +113,7 @@ impl Game {
 
                 time_left -= first.time;
 
-
+                // Clone the first collision cueball
                 let mut ball_a = self.cueball.clone();
                 match first.index_a {
                     Some(index) => {
@@ -117,10 +122,13 @@ impl Game {
                     None => {}
                 }
 
+                // Check whether it is a ball-ball or ball-wall collision
                 match first.index_b {
                     Some(index) => {
                         let mut ball_b = self.balls.get_mut(index).unwrap().clone();
                         physics::ball_ball_collision(&mut ball_a, &mut ball_b);
+
+                        // Update the second cueball in the pair
                         self.balls[index] = ball_b;
                     }
                     None => {
@@ -128,6 +136,7 @@ impl Game {
                     }
                 }
 
+                // Update the first cueball in the pair
                 match first.index_a {
                     Some(index) => {
                         self.balls[index] = ball_a;
@@ -139,6 +148,8 @@ impl Game {
                 break;
             }
         }
+
+        // Move the final stretch of time
         self.cueball.update(Vector2::new(0.0, 0.0), time_left);
 
         for ball in &mut self.balls {
@@ -146,6 +157,7 @@ impl Game {
         }
     }
 
+    // Returns a collision pair for the earlies collison
     fn get_first_collision_pair(&self) -> CollisionPair {
 
         let ball = &self.cueball;

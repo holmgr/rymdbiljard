@@ -67,20 +67,20 @@ pub fn ball_ball_collision(ball1: &mut poolball::Poolball, ball2: &mut poolball:
     ball2.velocity = new_v2;
 }
 
-//Checks for collision between the given balls
+// Checks for collision between the given balls
 pub fn check_collision(a: &poolball::Poolball, b: &poolball::Poolball) -> f64 {
-	// We pretend that b is stationary and compensate by subtracting its movement vector from a's
-	let move_vec = a.velocity - b.velocity;
+    // We pretend that b is stationary and compensate by subtracting its movement vector from a's
+    let move_vec = a.velocity - b.velocity;
 
-	//Calculate the distance between the centers and their combined radius
-	//let mut dist = a.position.distance(&b.position);
-	let sum_radii = a.radius + b.radius;
+    // Calculate the distance between the centers and their combined radius
+    // let mut dist = a.position.distance(&b.position);
+    let sum_radii = a.radius + b.radius;
 
-	//If we are not moving a large enough distance, we will not collide
-	//dist-= sum_radii;
+    // If we are not moving a large enough distance, we will not collide
+    // dist-= sum_radii;
 
-	//Normalize the movement vector
-	let normalized_vector = move_vec.normalize();
+    // Normalize the movement vector
+    let normalized_vector = move_vec.normalize();
 
     // Calculate the direction between the two balls
     let direction_between = (b.position - a.position) as Vector2<f64>;
@@ -96,24 +96,24 @@ pub fn check_collision(a: &poolball::Poolball, b: &poolball::Poolball) -> f64 {
     // Find the length of the direction vector between them
     let length_c = math::calc_magnitude(direction_between);
 
-	//If the closest that A will get to B is larger than their
-	//combined radii, there will be no collision
-	let f = (length_c * length_c) - (dot_product * dot_product);
-	let sum_radii_squared = sum_radii * sum_radii;
-	if f > sum_radii_squared{
-		return f64::INFINITY;
-	}
-	let t = sum_radii_squared - f;
+    // If the closest that A will get to B is larger than their
+    // combined radii, there will be no collision
+    let f = (length_c * length_c) - (dot_product * dot_product);
+    let sum_radii_squared = sum_radii * sum_radii;
+    if f > sum_radii_squared {
+        return f64::INFINITY;
+    }
+    let t = sum_radii_squared - f;
 
-	if t < 0.0{
-		return f64::INFINITY;
-	}
+    if t < 0.0 {
+        return f64::INFINITY;
+    }
 
-	let movement_distance = dot_product - t.sqrt();
-	let move_vec_magnitude = math::calc_magnitude(move_vec);
+    let movement_distance = dot_product - t.sqrt();
+    let move_vec_magnitude = math::calc_magnitude(move_vec);
 
-	return movement_distance / move_vec_magnitude;
- }
+    return movement_distance / move_vec_magnitude;
+}
 
 // return the time to impact with wall given the current velocity
 pub fn time_to_wall_collision(ball: &poolball::Poolball) -> f64 {
@@ -142,7 +142,7 @@ pub fn ball_wall_collision(ball: &mut poolball::Poolball) {
 
     // change the velocity given which wall was hit (the closest)
     let mut tmp = ball.velocity;
-    if (horizontal_distance_to_wall < vertical_distance_to_wall) {
+    if horizontal_distance_to_wall < vertical_distance_to_wall {
         tmp.x = tmp.x * (-1.0);
     } else {
         tmp.y = tmp.y * (-1.0);
@@ -199,37 +199,37 @@ fn test_friction() {
 
 #[test]
 fn test_check_collision_simple() {
-	let mut ball1 = poolball::Poolball::new(Point2::new(0.0,0.0));
-	ball1.radius = 1.0;
-	let mut ball2 = poolball::Poolball::new(Point2::new(3.0,0.0));
-	ball2.radius = 1.0;
+    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0));
+    ball1.radius = 1.0;
+    let mut ball2 = poolball::Poolball::new(Point2::new(3.0, 0.0));
+    ball2.radius = 1.0;
 
     ball1.velocity = Vector2::new(1.0, 0.0);
     let collision_time = check_collision(&ball1, &ball2);
 
     assert_eq!(collision_time, 1.0);
 
-	let mut ball1 = poolball::Poolball::new(Point2::new(0.0,0.0));
-	ball1.radius = 1.0;
-	let mut ball2 = poolball::Poolball::new(Point2::new(4.0,0.0));
-	ball2.radius = 1.0;
+    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0));
+    ball1.radius = 1.0;
+    let mut ball2 = poolball::Poolball::new(Point2::new(4.0, 0.0));
+    ball2.radius = 1.0;
 
-	ball1.velocity = Vector2::new(1.0,0.0);
+    ball1.velocity = Vector2::new(1.0, 0.0);
 
-	let collision_time = check_collision(&ball1, &ball2);
+    let collision_time = check_collision(&ball1, &ball2);
 
-	assert_eq!(collision_time, 2.0);
+    assert_eq!(collision_time, 2.0);
 }
 
 #[test]
 fn test_check_collision_advanced() {
-	let mut ball1 = poolball::Poolball::new(Point2::new(0.0,0.0));
-	ball1.radius = 1.0;
-	let mut ball2 = poolball::Poolball::new(Point2::new(4.0,0.0));
-	ball2.radius = 1.0;
+    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0));
+    ball1.radius = 1.0;
+    let mut ball2 = poolball::Poolball::new(Point2::new(4.0, 0.0));
+    ball2.radius = 1.0;
 
-	ball1.velocity = Vector2::new(1.0,1.0);
-	ball2.velocity = Vector2::new(-1.0,1.0);
+    ball1.velocity = Vector2::new(1.0, 1.0);
+    ball2.velocity = Vector2::new(-1.0, 1.0);
 
     ball1.set_velocity(&Vector2::new(1.0, 1.0));
     ball2.set_velocity(&Vector2::new(-1.0, 1.0));
