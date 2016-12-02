@@ -214,7 +214,7 @@ fn test_check_collision_simple() {
 
     ball1.velocity = Vector2::new(1.0, 0.0);
 
-    let collision_time = check_collision(ball1, ball2);
+    let collision_time = check_collision(&ball1, &ball2);
 
     assert_eq!(collision_time, 1.0);
 }
@@ -230,7 +230,7 @@ fn test_check_collision_advanced() {
     ball1.set_velocity(&Vector2::new(1.0, 1.0));
     ball2.set_velocity(&Vector2::new(-1.0, 1.0));
 
-    let collision_time = check_collision(ball1, ball2);
+    let collision_time = check_collision(&ball1, &ball2);
 
     assert_eq!(collision_time, 1.0);
 }
