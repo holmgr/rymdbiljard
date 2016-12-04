@@ -35,6 +35,7 @@ fn main() {
         .unwrap();
     let mut gl = GlGraphics::new(opengl);
 
+    // Create some starting cueballs
     let mut balls = vec![
         poolball::Poolball::new(Point2::new(0.5, 0.3), poolball::BallType::White),
         poolball::Poolball::new(Point2::new(0.1, 0.1), poolball::BallType::Red),
@@ -56,6 +57,7 @@ fn main() {
         poolball::Poolball::new(Point2::new(0.1, 0.9), poolball::BallType::Blue),
     ];
 
+    // Create goalzones
     let goalzones = vec![
         goalzone::Goalzone::new(Point2::new(0.0, 0.0)),
         goalzone::Goalzone::new(Point2::new(1.0, 0.0)),
@@ -63,18 +65,18 @@ fn main() {
         goalzone::Goalzone::new(Point2::new(1.0, 1.0)),
     ];
 
-    balls.first_mut().unwrap().set_velocity(Vector2::new(0.01, -0.1));
-
+    // Set velocity for all balls
     for ball in &mut balls {
         ball.set_velocity(Vector2::new(0.09, -0.05));
     }
 
+    // Create and start the game
     let mut game = game::Game::new(balls, Vec::new(), goalzones);
-
 
     let font_path = Path::new("assets/FiraSans-Regular.ttf");
     let ref mut cache = GlyphCache::new(font_path).unwrap();
 
+    // Main game loop
     let mut events = window.events();
     while let Some(e) = events.next(&mut window) {
         if let Some(r) = e.render_args() {

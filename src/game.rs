@@ -9,15 +9,23 @@ use goalzone;
 use blackhole;
 use physics;
 
-// Struct used for holding information about a ball-ball collision or a
-// ball-wall collision (index_B being None).
-// Index_a being None signifies that it is the cueball
+/**
+ * Struct used for holding information about a ball-ball collision or a
+ * ball-wall collision.
+ * A ball-wall collision is signified by Second being none.
+ */
 struct CollisionPair {
     first: poolball::Poolball,
     second: Option<poolball::Poolball>,
     time: f64,
 }
 
+/**
+ * Main struct for the global game state information, such as the cueballs in
+ * play, goalzones and eventual blackholes etc.
+ * Also implements the main gameplay functionality such as the update function
+ * and collision handling algorithm.
+ */
 pub struct Game {
     balls: Vec<poolball::Poolball>,
     blackholes: Vec<blackhole::Blackhole>,
@@ -26,6 +34,9 @@ pub struct Game {
 }
 
 impl Game {
+    /**
+     * Creates a new game given the specified parameters
+     */
     pub fn new(balls: Vec<poolball::Poolball>,
                blackholes: Vec<blackhole::Blackhole>,
                goalzones: Vec<goalzone::Goalzone>)
@@ -38,6 +49,10 @@ impl Game {
         }
     }
 
+    /**
+     * Renders the current game state including the cueballs, current score,
+     * blackholes and goalzones using the GlGraphics
+     */
     pub fn render(&mut self, gl: &mut GlGraphics, args: &RenderArgs, cache: &mut GlyphCache) {
         use graphics::*;
 
@@ -69,17 +84,20 @@ impl Game {
         }
     }
 
-    // Updates the positon, speeds etc for all cueballs aswell as handling the
-    // collisions
+    /**
+     * Updates the positon, speeds etc for all cueballs aswell as handling the
+     * collisions
+    */
     pub fn update(&mut self, args: &UpdateArgs) {
 
+        // Save tatal time budget
         let mut time_left = args.dt;
-
         let CollisionPair { mut first, mut second, mut time } = self.get_first_collision_pair();
 
+        // While there exists a collision within this time step
         while time < time_left {
 
-            // Remove first and second from the list
+            // Remove the collision pair form the list of cueballs
             self.balls.retain(|elem| {
                 match second {
                     Some(ref mut second) => *elem != first && *elem != *second,
@@ -87,7 +105,8 @@ impl Game {
                 }
             });
 
-            // Move until first collision
+            // No collisions can occure before the first one. Move all balls
+            // using their current velocities
             for ball in &mut self.balls {
                 ball.update(time);
             }
@@ -100,6 +119,7 @@ impl Game {
             // Reduce time left
             time_left -= time;
 
+            // Solve the collision: either ball-wall or ball-ball
             match second {
                 Some(mut second) => {
                     physics::ball_ball_collision(&mut first, &mut second);
@@ -116,6 +136,7 @@ impl Game {
                 }
             }
 
+            // Get the next collision pair
             let pair = self.get_first_collision_pair();
             first = pair.first;
             second = pair.second;
@@ -123,12 +144,17 @@ impl Game {
 
         }
 
+        // If there is time left, advance the rest of the time step
         for ball in &mut self.balls {
             ball.update(time_left);
         }
     }
 
-    // Returns a collision pair for the earlies collison
+    /**
+     * Returns a collision pair for the earlies collision by going throguh all
+     * cueballs searching for the ball-wall or ball-ball pair with the earlies
+     * collision time
+     */
     fn get_first_collision_pair(&self) -> CollisionPair {
 
         let mut earliest_collision_pair = CollisionPair {
@@ -137,8 +163,11 @@ impl Game {
             time: f64::INFINITY,
         };
 
+        // Go throguh all cueballs
         let mut iter = self.balls.iter();
         while let Some(first) = iter.next() {
+
+            // Check collision time for ball-wall
             let time_wall = physics::time_to_wall_collision(first);
 
             if time_wall < earliest_collision_pair.time {
@@ -149,6 +178,8 @@ impl Game {
                 };
             }
 
+            // Go through the rest of the cue balls and check the pairs for
+            // the collision time
             for second in iter.clone().by_ref() {
                 let time_ball = physics::time_to_ball_ball_collision(first, second);
                 if time_ball < earliest_collision_pair.time {

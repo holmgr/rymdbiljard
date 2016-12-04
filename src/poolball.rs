@@ -25,7 +25,9 @@ const MASS: f64 = 0.1;
 const RADIUS: f64 = 0.01;
 
 impl Poolball {
-    // Creates a new Golfball with a initial position and velocity
+    /**
+     * Creates a new Poolball with a initial position and velocity
+     */
     pub fn new(position: Point2<f64>, ball_type: BallType) -> Poolball {
         Poolball {
             position: position,
@@ -36,26 +38,37 @@ impl Poolball {
         }
     }
 
-    // Updates the balls position using its current velocity, then updating velocity
+    /**
+     * Updates the cueballs position using its current velocity
+     */
     pub fn update(&mut self, delta_time: f64) {
         self.position += self.velocity * delta_time;
     }
 
+    /**
+     * Updates the velocity of the cueball given the perceived acceleration
+     */
     pub fn update_velocity(&mut self, acceleration: Vector2<f64>, delta_time: f64) {
         self.velocity += acceleration * delta_time;
     }
 
-    // Sets the velocity of the ball to the given velocity
+    /**
+     * Sets the velocity of the ball to the given velocity
+     */
     pub fn set_velocity(&mut self, new_velocity: Vector2<f64>) {
         self.velocity = new_velocity.clone();
     }
 
-    // Returns true if the poolball is stationary
+    /**
+     * Returns true if the poolball is stationary
+     */
     pub fn is_stationary(&self) -> bool {
         self.velocity.is_zero()
     }
 
-    // Renders itself using the given graphics and ellipse
+    /**
+     * Renders itself using the given graphics
+     */
     pub fn render(&self, args: &RenderArgs, gl: &mut GlGraphics) {
 
         const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
@@ -73,6 +86,7 @@ impl Poolball {
             let trans = c.transform
                 .scale(args.width as f64, args.height as f64)
                 .trans(self.position.x, self.position.y);
+
             // Draw the cue ball
             ellipse.draw(ellipse::circle(0.0, 0.0, self.radius),
                          &c.draw_state,

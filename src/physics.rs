@@ -6,7 +6,10 @@ use std::f64;
 
 const FRICTION: f64 = 0.00001;
 
-// Calculates the gravity acceleration from an object with given mass at given distance
+/**
+ * Calculates the gravity acceleration from an object with given mass at given
+ * distance
+ */
 fn gravity_acc(mass: f64, distance: f64) -> f64 {
     // let gravity_constant = 6.673 * (10.0_f32).powf(-11.0);
     // We use gravity_constant = 1 for now, as the actual constant would require very high mass
@@ -14,7 +17,9 @@ fn gravity_acc(mass: f64, distance: f64) -> f64 {
     (gravity_constant * mass) / distance.powf(2.0)
 }
 
-// Calculates the acceleration acting upon the ball from the given black holes
+/**
+ * Calculates the acceleration acting upon the ball from the given black holes
+ */
 pub fn calculate_gravity(blackholes: Vec<blackhole::Blackhole>,
                          ball: poolball::Poolball)
                          -> Vector2<f64> {
@@ -32,7 +37,10 @@ pub fn calculate_gravity(blackholes: Vec<blackhole::Blackhole>,
     return result;
 }
 
-// Calculates the direction and size of the friction acceleration on the given ball
+/**
+ * Calculates the direction and size of the friction acceleration on the given
+ * ball
+ */
 pub fn friction(poolball: poolball::Poolball) -> Vector2<f64> {
     if poolball.velocity == Vector2::new(0.0, 0.0) {
         return Vector2::new(0.0, 0.0);
@@ -42,8 +50,10 @@ pub fn friction(poolball: poolball::Poolball) -> Vector2<f64> {
     return friction;
 }
 
-// Calculates the new velocities for 2 colloding bals after time delta_time,
-// (delta_time is in seconds)
+/**
+* Calculates the new velocities for 2 colloding bals after time delta_time,
+* (delta_time is in seconds)
+*/
 pub fn ball_ball_collision(ball1: &mut poolball::Poolball, ball2: &mut poolball::Poolball) {
 
     // Find the Normal for the 2 balls
@@ -67,7 +77,9 @@ pub fn ball_ball_collision(ball1: &mut poolball::Poolball, ball2: &mut poolball:
     ball2.velocity = new_v2;
 }
 
-// Checks for collision between the given balls
+/**
+ * Checks for collision between the given balls
+ */
 pub fn time_to_ball_ball_collision(a: &poolball::Poolball, b: &poolball::Poolball) -> f64 {
     // We pretend that b is stationary and compensate by subtracting its movement vector from a's
     let move_vec = a.velocity - b.velocity;
@@ -115,7 +127,9 @@ pub fn time_to_ball_ball_collision(a: &poolball::Poolball, b: &poolball::Poolbal
     return movement_distance / move_vec_magnitude;
 }
 
-// return the time to impact with wall given the current velocity
+/**
+ * Return the time to impact with wall given the current velocity
+ */
 pub fn time_to_wall_collision(ball: &poolball::Poolball) -> f64 {
     // will be the distance to the wall in the x direction the ball is moving
     let horizontal_distance_to_wall = (ball.position.x - (ball.velocity.x.signum() / 2.0 + 0.5))
@@ -131,7 +145,9 @@ pub fn time_to_wall_collision(ball: &poolball::Poolball) -> f64 {
     return min_time;
 }
 
-// recalculates the new velocities for the ball given collision with a wall
+/**
+ * Recalculates the new velocities for the ball given collision with a wall
+ */
 pub fn ball_wall_collision(ball: &mut poolball::Poolball) {
     // will be the distance to the wall in the x direction the ball is moving
     let horizontal_distance_to_wall =
