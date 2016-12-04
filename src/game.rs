@@ -1,7 +1,7 @@
 use piston::input::*;
 use opengl_graphics::GlGraphics;
 use opengl_graphics::glyph_cache::GlyphCache;
-use na::{Vector2, Point2};
+use na::Point2;
 use std::f64;
 
 use poolball;
@@ -150,7 +150,7 @@ impl Game {
             }
 
             for second in iter.clone().by_ref() {
-                let time_ball = physics::check_collision(first, second);
+                let time_ball = physics::time_to_ball_ball_collision(first, second);
                 if time_ball < earliest_collision_pair.time {
                     earliest_collision_pair = CollisionPair {
                         first: first.clone(),

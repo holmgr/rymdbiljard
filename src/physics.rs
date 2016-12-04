@@ -68,7 +68,7 @@ pub fn ball_ball_collision(ball1: &mut poolball::Poolball, ball2: &mut poolball:
 }
 
 // Checks for collision between the given balls
-pub fn check_collision(a: &poolball::Poolball, b: &poolball::Poolball) -> f64 {
+pub fn time_to_ball_ball_collision(a: &poolball::Poolball, b: &poolball::Poolball) -> f64 {
     // We pretend that b is stationary and compensate by subtracting its movement vector from a's
     let move_vec = a.velocity - b.velocity;
 
@@ -205,7 +205,7 @@ fn test_check_collision_simple() {
     ball2.radius = 1.0;
 
     ball1.velocity = Vector2::new(1.0, 0.0);
-    let collision_time = check_collision(&ball1, &ball2);
+    let collision_time = time_to_ball_ball_collision(&ball1, &ball2);
 
     assert_eq!(collision_time, 1.0);
 
@@ -216,7 +216,7 @@ fn test_check_collision_simple() {
 
     ball1.velocity = Vector2::new(1.0, 0.0);
 
-    let collision_time = check_collision(&ball1, &ball2);
+    let collision_time = time_to_ball_ball_collision(&ball1, &ball2);
 
     assert_eq!(collision_time, 2.0);
 }
@@ -234,7 +234,7 @@ fn test_check_collision_advanced() {
     ball1.set_velocity(Vector2::new(1.0, 1.0));
     ball2.set_velocity(Vector2::new(-1.0, 1.0));
 
-    let collision_time = check_collision(&ball1, &ball2);
+    let collision_time = time_to_ball_ball_collision(&ball1, &ball2);
 
     assert_eq!(collision_time, 1.0);
 }
