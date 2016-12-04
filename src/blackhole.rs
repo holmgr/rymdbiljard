@@ -32,12 +32,12 @@ impl Blackhole {
 #[test]
 fn test_is_spagettified() {
     let bh = Blackhole::new(Point2::new(0.0, 0.0), 1.0, 1.0, 3.0);
-    let pb1 = poolball::Poolball::new(Point2::new(1.0, 0.0));
-    let pb2 = poolball::Poolball::new(Point2::new(-1.0, 0.0));
-    let pb3 = poolball::Poolball::new(Point2::new(0.0, 1.0));
-    let pb4 = poolball::Poolball::new(Point2::new(0.0, -1.0));
-    let pb5 = poolball::Poolball::new(Point2::new(2.1, 0.0));
-    let pb6 = poolball::Poolball::new(Point2::new(0.0, 2.1));
+    let pb1 = poolball::Poolball::new(Point2::new(1.0, 0.0), poolball::BallType::Red);
+    let pb2 = poolball::Poolball::new(Point2::new(-1.0, 0.0), poolball::BallType::Red);
+    let pb3 = poolball::Poolball::new(Point2::new(0.0, 1.0), poolball::BallType::Red);
+    let pb4 = poolball::Poolball::new(Point2::new(0.0, -1.0), poolball::BallType::Red);
+    let pb5 = poolball::Poolball::new(Point2::new(2.1, 0.0), poolball::BallType::Red);
+    let pb6 = poolball::Poolball::new(Point2::new(0.0, 2.1), poolball::BallType::Red);
     assert!(bh.is_spagettified(&pb1));
     assert!(bh.is_spagettified(&pb2));
     assert!(bh.is_spagettified(&pb3));

@@ -36,23 +36,24 @@ fn main() {
     let mut gl = GlGraphics::new(opengl);
 
     let mut balls = vec![
-        poolball::Poolball::new(Point2::new(0.1, 0.1)),
-        poolball::Poolball::new(Point2::new(0.2, 0.1)),
-        poolball::Poolball::new(Point2::new(0.3, 0.1)),
-        poolball::Poolball::new(Point2::new(0.4, 0.1)),
-        poolball::Poolball::new(Point2::new(0.5, 0.1)),
-        poolball::Poolball::new(Point2::new(0.6, 0.1)),
-        poolball::Poolball::new(Point2::new(0.7, 0.1)),
-        poolball::Poolball::new(Point2::new(0.8, 0.1)),
-        poolball::Poolball::new(Point2::new(0.9, 0.1)),
-        poolball::Poolball::new(Point2::new(0.1, 0.2)),
-        poolball::Poolball::new(Point2::new(0.1, 0.3)),
-        poolball::Poolball::new(Point2::new(0.1, 0.4)),
-        poolball::Poolball::new(Point2::new(0.1, 0.5)),
-        poolball::Poolball::new(Point2::new(0.1, 0.6)),
-        poolball::Poolball::new(Point2::new(0.1, 0.7)),
-        poolball::Poolball::new(Point2::new(0.1, 0.8)),
-        poolball::Poolball::new(Point2::new(0.1, 0.9)),
+        poolball::Poolball::new(Point2::new(0.5, 0.3), poolball::BallType::White),
+        poolball::Poolball::new(Point2::new(0.1, 0.1), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.2, 0.1), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.3, 0.1), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.4, 0.1), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.5, 0.1), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.6, 0.1), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.7, 0.1), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.8, 0.1), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.9, 0.1), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.1, 0.2), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.1, 0.3), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.1, 0.4), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.1, 0.5), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.1, 0.6), poolball::BallType::Red),
+        poolball::Poolball::new(Point2::new(0.1, 0.7), poolball::BallType::Blue),
+        poolball::Poolball::new(Point2::new(0.1, 0.8), poolball::BallType::Blue),
+        poolball::Poolball::new(Point2::new(0.1, 0.9), poolball::BallType::Blue),
     ];
 
     let goalzones = vec![
@@ -62,14 +63,13 @@ fn main() {
         goalzone::Goalzone::new(Point2::new(1.0, 1.0)),
     ];
 
-    let mut cueball = poolball::Poolball::new(Point2::new(0.5, 0.3));
-    cueball.set_velocity(Vector2::new(0.01, -0.1));
+    balls.first_mut().unwrap().set_velocity(Vector2::new(0.01, -0.1));
 
     for ball in &mut balls {
         ball.set_velocity(Vector2::new(0.09, -0.05));
     }
 
-    let mut game = game::Game::new(cueball, balls, Vec::new(), goalzones);
+    let mut game = game::Game::new(balls, Vec::new(), goalzones);
 
 
     let font_path = Path::new("assets/FiraSans-Regular.ttf");

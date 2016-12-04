@@ -1,8 +1,7 @@
 use piston::input::*;
 use opengl_graphics::GlGraphics;
 use opengl_graphics::glyph_cache::GlyphCache;
-use na::Vector2;
-use std::cmp::Ordering;
+use na::{Vector2, Point2};
 use std::f64;
 
 use poolball;
@@ -14,25 +13,12 @@ use physics;
 // ball-wall collision (index_B being None).
 // Index_a being None signifies that it is the cueball
 struct CollisionPair {
-    index_a: Option<usize>,
-    index_b: Option<usize>,
+    first: poolball::Poolball,
+    second: Option<poolball::Poolball>,
     time: f64,
 }
 
-impl PartialOrd for CollisionPair {
-    fn partial_cmp(&self, other: &CollisionPair) -> Option<Ordering> {
-        self.time.partial_cmp(&other.time)
-    }
-}
-
-impl PartialEq for CollisionPair {
-    fn eq(&self, other: &CollisionPair) -> bool {
-        self.time == other.time
-    }
-}
-
 pub struct Game {
-    cueball: poolball::Poolball,
     balls: Vec<poolball::Poolball>,
     blackholes: Vec<blackhole::Blackhole>,
     goalzones: Vec<goalzone::Goalzone>,
@@ -40,13 +26,11 @@ pub struct Game {
 }
 
 impl Game {
-    pub fn new(cueball: poolball::Poolball,
-               balls: Vec<poolball::Poolball>,
+    pub fn new(balls: Vec<poolball::Poolball>,
                blackholes: Vec<blackhole::Blackhole>,
                goalzones: Vec<goalzone::Goalzone>)
                -> Self {
         Game {
-            cueball: cueball,
             balls: balls,
             blackholes: blackholes,
             goalzones: goalzones,
@@ -63,9 +47,8 @@ impl Game {
             clear(BLACK, g);
         });
 
-        const WHITE: [f32; 4] = [1.0, 1.0, 1.0, 1.0];
-
         // Draw score
+        const WHITE: [f32; 4] = [1.0, 1.0, 1.0, 1.0];
         gl.draw(args.viewport(), |c, gl| {
 
             let trans = c.transform
@@ -75,25 +58,14 @@ impl Game {
                 .draw(score_str.as_str(), cache, &c.draw_state, trans, gl);
         });
 
-        const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 0.4];
-
         // Draw goalzones
-        let green_ellipse = Ellipse::new(GREEN);
         for goalzone in &self.goalzones {
-            goalzone.render(green_ellipse, args, gl);
+            goalzone.render(args, gl);
         }
 
-        const RED: [f32; 4] = [1.0, 0.0, 0.0, 1.0];
-
-        let red_ellipse = Ellipse::new(RED);
-        let white_ellipse = Ellipse::new(WHITE);
-
-        // Draw cue ball
-        self.cueball.render(white_ellipse, args, gl);
-
-        // Draw all other balls
+        // Draw all cueballs
         for ball in &self.balls {
-            ball.render(red_ellipse, args, gl);
+            ball.render(args, gl);
         }
     }
 
@@ -102,55 +74,54 @@ impl Game {
     pub fn update(&mut self, args: &UpdateArgs) {
 
         let mut time_left = args.dt;
-        loop {
-            let first = self.get_first_collision_pair();
-            if first.time <= time_left {
-                self.cueball.update(first.time);
 
-                for ball in &mut self.balls {
-                    ball.update(first.time);
+        let CollisionPair { mut first, mut second, mut time } = self.get_first_collision_pair();
+
+        while time < time_left {
+
+            // Remove first and second from the list
+            self.balls.retain(|elem| {
+                match second {
+                    Some(ref mut second) => *elem != first && *elem != *second,
+                    None => *elem != first,
                 }
+            });
 
-                time_left -= first.time;
-
-                // Clone the first collision cueball
-                let mut ball_a = self.cueball.clone();
-                match first.index_a {
-                    Some(index) => {
-                        ball_a = self.balls.get_mut(index).unwrap().clone();
-                    }
-                    None => {}
-                }
-
-                // Check whether it is a ball-ball or ball-wall collision
-                match first.index_b {
-                    Some(index) => {
-                        let mut ball_b = self.balls.get_mut(index).unwrap().clone();
-                        physics::ball_ball_collision(&mut ball_a, &mut ball_b);
-
-                        // Update the second cueball in the pair
-                        self.balls[index] = ball_b;
-                    }
-                    None => {
-                        physics::ball_wall_collision(&mut ball_a);
-                    }
-                }
-
-                // Update the first cueball in the pair
-                match first.index_a {
-                    Some(index) => {
-                        self.balls[index] = ball_a;
-                    }
-                    None => self.cueball = ball_a,
-                }
-
-            } else {
-                break;
+            // Move until first collision
+            for ball in &mut self.balls {
+                ball.update(time);
             }
-        }
 
-        // Move the final stretch of time
-        self.cueball.update(time_left);
+            first.update(time);
+            if let Some(ref mut second) = second {
+                second.update(time);
+            }
+
+            // Reduce time left
+            time_left -= time;
+
+            match second {
+                Some(mut second) => {
+                    physics::ball_ball_collision(&mut first, &mut second);
+
+                    // Add updated first and second back
+                    self.balls.push(first);
+                    self.balls.push(second);
+                }
+                None => {
+                    physics::ball_wall_collision(&mut first);
+
+                    // Add updated first and second back
+                    self.balls.push(first);
+                }
+            }
+
+            let pair = self.get_first_collision_pair();
+            first = pair.first;
+            second = pair.second;
+            time = pair.time;
+
+        }
 
         for ball in &mut self.balls {
             ball.update(time_left);
@@ -160,51 +131,32 @@ impl Game {
     // Returns a collision pair for the earlies collison
     fn get_first_collision_pair(&self) -> CollisionPair {
 
-        let ball = &self.cueball;
-        let time_wall = physics::time_to_wall_collision(&ball);
-
         let mut earliest_collision_pair = CollisionPair {
-            index_a: None,
-            index_b: None,
-            time: time_wall,
+            first: poolball::Poolball::new(Point2::new(0.0, 0.0), poolball::BallType::Red),
+            second: None,
+            time: f64::INFINITY,
         };
 
-        for i in 0..self.balls.len() {
-            let second = &self.balls[i];
-
-            let time_ball = physics::check_collision(ball, second);
-            if time_ball < earliest_collision_pair.time {
-                earliest_collision_pair = CollisionPair {
-                    index_a: None,
-                    index_b: Some(i),
-                    time: time_ball,
-                }
-            }
-        }
-
-        for i in 0..self.balls.len() {
-            let ball = &self.balls[i];
-
-            let time_wall = physics::time_to_wall_collision(&ball);
+        let mut iter = self.balls.iter();
+        while let Some(first) = iter.next() {
+            let time_wall = physics::time_to_wall_collision(first);
 
             if time_wall < earliest_collision_pair.time {
                 earliest_collision_pair = CollisionPair {
-                    index_a: Some(i),
-                    index_b: None,
+                    first: first.clone(),
+                    second: None,
                     time: time_wall,
-                }
+                };
             }
 
-            for j in i + 1..self.balls.len() {
-                let second = &self.balls[j];
-
-                let time_ball = physics::check_collision(ball, second);
+            for second in iter.clone().by_ref() {
+                let time_ball = physics::check_collision(first, second);
                 if time_ball < earliest_collision_pair.time {
                     earliest_collision_pair = CollisionPair {
-                        index_a: Some(i),
-                        index_b: Some(j),
+                        first: first.clone(),
+                        second: Some(second.clone()),
                         time: time_ball,
-                    }
+                    };
                 }
             }
 

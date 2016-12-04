@@ -167,7 +167,7 @@ fn test_gravity_acc() {
 fn test_calculate_gravity() {
     let blackholes = vec![blackhole::Blackhole::new(Point2::new(0.0, 0.0), 1.0, 1.0, 1.0),
                           blackhole::Blackhole::new(Point2::new(0.0, 1.0), 1.0, 1.0, 1.0)];
-    let ball = poolball::Poolball::new(Point2::new(1.0, 1.0));
+    let ball = poolball::Poolball::new(Point2::new(1.0, 1.0), poolball::BallType::Red);
     let acc_vector = calculate_gravity(blackholes, ball);
     assert!((acc_vector.len() as f64) -
             ((1.0 / (8.0_f64).sqrt() *
@@ -181,17 +181,17 @@ fn test_calculate_gravity() {
 fn test_calculate_gravity_reach() {
     let blackholes = vec![blackhole::Blackhole::new(Point2::new(0.0, 0.0), 1.0, 1.0, 0.0),
                           blackhole::Blackhole::new(Point2::new(0.0, 1.0), 1.0, 1.0, 0.0)];
-    let ball = poolball::Poolball::new(Point2::new(1.0, 1.0));
+    let ball = poolball::Poolball::new(Point2::new(1.0, 1.0), poolball::BallType::Red);
     let acc_vector = calculate_gravity(blackholes, ball);
     assert_eq!(acc_vector, Vector2::new(0.0, 0.0));
 }
 
 #[test]
 fn test_friction() {
-    let ball = poolball::Poolball::new(Point2::new(1.0, 1.0));
+    let ball = poolball::Poolball::new(Point2::new(1.0, 1.0), poolball::BallType::Red);
     assert_eq!(friction(ball), Vector2::new(0.0, 0.0));
 
-    let mut ball2 = poolball::Poolball::new(Point2::new(1.0, 1.0));
+    let mut ball2 = poolball::Poolball::new(Point2::new(1.0, 1.0), poolball::BallType::Red);
     ball2.velocity = Vector2::new(1.0, 0.0);
     assert_eq!(Vector2::new(-1.0, 0.0) * FRICTION, friction(ball2));
 }
@@ -199,9 +199,9 @@ fn test_friction() {
 
 #[test]
 fn test_check_collision_simple() {
-    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0));
+    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0), poolball::BallType::Red);
     ball1.radius = 1.0;
-    let mut ball2 = poolball::Poolball::new(Point2::new(3.0, 0.0));
+    let mut ball2 = poolball::Poolball::new(Point2::new(3.0, 0.0), poolball::BallType::Red);
     ball2.radius = 1.0;
 
     ball1.velocity = Vector2::new(1.0, 0.0);
@@ -209,9 +209,9 @@ fn test_check_collision_simple() {
 
     assert_eq!(collision_time, 1.0);
 
-    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0));
+    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0), poolball::BallType::Red);
     ball1.radius = 1.0;
-    let mut ball2 = poolball::Poolball::new(Point2::new(4.0, 0.0));
+    let mut ball2 = poolball::Poolball::new(Point2::new(4.0, 0.0), poolball::BallType::Red);
     ball2.radius = 1.0;
 
     ball1.velocity = Vector2::new(1.0, 0.0);
@@ -223,9 +223,9 @@ fn test_check_collision_simple() {
 
 #[test]
 fn test_check_collision_advanced() {
-    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0));
+    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0), poolball::BallType::Red);
     ball1.radius = 1.0;
-    let mut ball2 = poolball::Poolball::new(Point2::new(4.0, 0.0));
+    let mut ball2 = poolball::Poolball::new(Point2::new(4.0, 0.0), poolball::BallType::Red);
     ball2.radius = 1.0;
 
     ball1.velocity = Vector2::new(1.0, 1.0);
@@ -241,11 +241,11 @@ fn test_check_collision_advanced() {
 
 #[test]
 fn test_simpl_ball_ball_collision_calculation() {
-    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0));
+    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0), poolball::BallType::Red);
     ball1.mass = 1.0;
     ball1.velocity = Vector2::new(1.0, 0.0);
 
-    let mut ball2 = poolball::Poolball::new(Point2::new(4.0, 0.0));
+    let mut ball2 = poolball::Poolball::new(Point2::new(4.0, 0.0), poolball::BallType::Red);
     ball2.mass = 1.0;
     ball2.velocity = Vector2::new(-1.0, 0.0);
 
@@ -256,11 +256,11 @@ fn test_simpl_ball_ball_collision_calculation() {
 
 #[test]
 fn test_diagonal_ball_ball_collision_calculation() {
-    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0));
+    let mut ball1 = poolball::Poolball::new(Point2::new(0.0, 0.0), poolball::BallType::Red);
     ball1.mass = 1.0;
     ball1.velocity = Vector2::new(1.0, 1.0);
 
-    let mut ball2 = poolball::Poolball::new(Point2::new(4.0, 0.0));
+    let mut ball2 = poolball::Poolball::new(Point2::new(4.0, 0.0), poolball::BallType::Red);
     ball2.mass = 1.0;
     ball2.velocity = Vector2::new(-1.0, 1.0);
 
@@ -271,7 +271,7 @@ fn test_diagonal_ball_ball_collision_calculation() {
 
 #[test]
 fn test_time_to_wall_collision() {
-    let mut ball = poolball::Poolball::new(Point2::new(0.4, 0.5));
+    let mut ball = poolball::Poolball::new(Point2::new(0.4, 0.5), poolball::BallType::Red);
     ball.radius = 0.1;
     ball.velocity = Vector2::new(1.0, 0.0);
     assert_eq!(time_to_wall_collision(&ball), 0.5);
@@ -294,7 +294,7 @@ fn test_time_to_wall_collision() {
 
 #[test]
 fn test_ball_wall_collision() {
-    let mut ball = poolball::Poolball::new(Point2::new(0.9, 0.5));
+    let mut ball = poolball::Poolball::new(Point2::new(0.9, 0.5), poolball::BallType::Red);
     ball.radius = 0.1;
     ball.velocity = Vector2::new(1.0, 0.0);
     ball_wall_collision(&mut ball);

@@ -28,7 +28,11 @@ impl Goalzone {
     }
 
     // Renders itself using the given graphics and ellipse
-    pub fn render(&self, draw_object: ellipse::Ellipse, args: &RenderArgs, gl: &mut GlGraphics) {
+    pub fn render(&self, args: &RenderArgs, gl: &mut GlGraphics) {
+
+        const GREEN: [f32; 4] = [0.0, 1.0, 0.0, 1.0];
+
+        let ellipse = ellipse::Ellipse::new(GREEN);
 
         gl.draw(args.viewport(), |c, gl| {
 
@@ -36,10 +40,10 @@ impl Goalzone {
                 .scale(args.width as f64, args.height as f64)
                 .trans(self.position.x, self.position.y);
             // Draw the cue ball
-            draw_object.draw(ellipse::circle(0.0, 0.0, self.radius),
-                             &c.draw_state,
-                             trans,
-                             gl);
+            ellipse.draw(ellipse::circle(0.0, 0.0, self.radius),
+                         &c.draw_state,
+                         trans,
+                         gl);
         });
     }
 }
@@ -47,7 +51,7 @@ impl Goalzone {
 #[test]
 fn test_reach() {
     // Inside range, should succeed
-    let ball = poolball::Poolball::new(Point2::new(0.0, 0.0));
+    let ball = poolball::Poolball::new(Point2::new(0.0, 0.0), poolball::BallType::Red);
     let goalzone = Goalzone::new(Point2::new(0.0, 0.0));
     assert!(goalzone.reached_goal(&ball));
 
