@@ -63,10 +63,10 @@ fn main() {
     ];
 
     let mut cueball = poolball::Poolball::new(Point2::new(0.5, 0.3));
-    cueball.set_velocity(&Vector2::new(0.01, -0.1));
+    cueball.set_velocity(Vector2::new(0.01, -0.1));
 
     for ball in &mut balls {
-        ball.set_velocity(&Vector2::new(0.09, -0.05));
+        ball.set_velocity(Vector2::new(0.09, -0.05));
     }
 
     let mut game = game::Game::new(cueball, balls, Vec::new(), goalzones);

@@ -105,10 +105,10 @@ impl Game {
         loop {
             let first = self.get_first_collision_pair();
             if first.time <= time_left {
-                self.cueball.update(Vector2::new(0.0, 0.0), first.time);
+                self.cueball.update(first.time);
 
                 for ball in &mut self.balls {
-                    ball.update(Vector2::new(0.0, 0.0), first.time);
+                    ball.update(first.time);
                 }
 
                 time_left -= first.time;
@@ -150,10 +150,10 @@ impl Game {
         }
 
         // Move the final stretch of time
-        self.cueball.update(Vector2::new(0.0, 0.0), time_left);
+        self.cueball.update(time_left);
 
         for ball in &mut self.balls {
-            ball.update(Vector2::new(0.0, 0.0), time_left);
+            ball.update(time_left);
         }
     }
 

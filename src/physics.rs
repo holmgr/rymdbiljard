@@ -147,7 +147,7 @@ pub fn ball_wall_collision(ball: &mut poolball::Poolball) {
     } else {
         tmp.y = tmp.y * (-1.0);
     }
-    ball.set_velocity(&tmp);
+    ball.set_velocity(tmp);
 }
 
 // Basic tests for gravity_acc
@@ -231,8 +231,8 @@ fn test_check_collision_advanced() {
     ball1.velocity = Vector2::new(1.0, 1.0);
     ball2.velocity = Vector2::new(-1.0, 1.0);
 
-    ball1.set_velocity(&Vector2::new(1.0, 1.0));
-    ball2.set_velocity(&Vector2::new(-1.0, 1.0));
+    ball1.set_velocity(Vector2::new(1.0, 1.0));
+    ball2.set_velocity(Vector2::new(-1.0, 1.0));
 
     let collision_time = check_collision(&ball1, &ball2);
 
