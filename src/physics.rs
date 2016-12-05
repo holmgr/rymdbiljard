@@ -4,7 +4,7 @@ use blackhole;
 use math;
 use std::f64;
 
-const FRICTION: f64 = 0.00001;
+const FRICTION: f64 = 0.01;
 
 /**
  * Calculates the gravity acceleration from an object with given mass at given
@@ -41,7 +41,7 @@ pub fn calculate_gravity(blackholes: Vec<blackhole::Blackhole>,
  * Calculates the direction and size of the friction acceleration on the given
  * ball
  */
-pub fn friction(poolball: poolball::Poolball) -> Vector2<f64> {
+pub fn friction(poolball: &poolball::Poolball) -> Vector2<f64> {
     if poolball.velocity == Vector2::new(0.0, 0.0) {
         return Vector2::new(0.0, 0.0);
     }
@@ -204,12 +204,12 @@ fn test_calculate_gravity_reach() {
 
 #[test]
 fn test_friction() {
-    let ball = poolball::Poolball::new(Point2::new(1.0, 1.0), poolball::BallType::Red);
-    assert_eq!(friction(ball), Vector2::new(0.0, 0.0));
+    let mut ball = poolball::Poolball::new(Point2::new(1.0, 1.0), poolball::BallType::Red);
+    assert_eq!(friction(&mut ball), Vector2::new(0.0, 0.0));
 
     let mut ball2 = poolball::Poolball::new(Point2::new(1.0, 1.0), poolball::BallType::Red);
     ball2.velocity = Vector2::new(1.0, 0.0);
-    assert_eq!(Vector2::new(-1.0, 0.0) * FRICTION, friction(ball2));
+    assert_eq!(Vector2::new(-1.0, 0.0) * FRICTION, friction(&mut ball2));
 }
 
 

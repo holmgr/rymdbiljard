@@ -148,6 +148,12 @@ impl Game {
         for ball in &mut self.balls {
             ball.update(time_left);
         }
+
+        // Add friction for this time step
+        for ball in &mut self.balls {
+            let friction = physics::friction(ball);
+            ball.update_velocity(friction, args.dt);
+        }
     }
 
     /**
