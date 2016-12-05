@@ -154,6 +154,24 @@ impl Game {
             let friction = physics::friction(ball);
             ball.update_velocity(friction, args.dt);
         }
+
+        // Check if any balls are in the goalzones, removing and adding score
+        // accordingly
+        let balls = &mut self.balls;
+        let goalzones = &self.goalzones;
+        let mut score = self.score;
+
+        balls.retain(|ball| {
+            match goalzones.iter().any(|zone| zone.reached_goal(ball)) {
+                true => {
+                    score += ball.get_value();
+                    false
+                },
+                false => true,
+            }
+        });
+
+        self.score = score;
     }
 
     /**
