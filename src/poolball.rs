@@ -60,6 +60,17 @@ impl Poolball {
     }
 
     /**
+     * Returns the value of the given ball depending on its color (ball_type)
+     */
+    pub fn get_value(&self) -> i32 {
+        match self.ball_type {
+            BallType::White => -100,
+            BallType::Red => 10,
+            BallType::Blue => 30,
+        }
+    }
+
+    /**
      * Returns true if the poolball is stationary
      */
     pub fn is_stationary(&self) -> bool {
@@ -125,4 +136,15 @@ fn test_is_stationary() {
     assert!(ball.is_stationary());
     ball.set_velocity(Vector2::new(1.0, 1.0));
     assert!(!ball.is_stationary());
+}
+
+#[test]
+fn test_get_value() {
+    let white = Poolball::new(Point2::new(0.0, 0.0), BallType::White);
+    let red = Poolball::new(Point2::new(0.0, 0.0), BallType::Red);
+    let blue = Poolball::new(Point2::new(0.0, 0.0), BallType::Blue);
+
+    assert_eq!(white.get_value(), -100);
+    assert_eq!(red.get_value(), 10);
+    assert_eq!(blue.get_value(), 30);
 }
