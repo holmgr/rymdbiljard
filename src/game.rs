@@ -82,6 +82,11 @@ impl Game {
         for ball in &self.balls {
             ball.render(args, gl);
         }
+
+        // Draw all blackholes
+        for blackhole in &self.blackholes {
+            blackhole.render(args, gl);
+        }
     }
 
     /**
@@ -155,9 +160,19 @@ impl Game {
             ball.update_velocity(friction, args.dt);
         }
 
+        // Add accelerations for all balls within blackholes
+        let blackholes = &self.blackholes;
+
+        for ball in &mut self.balls {
+            let acceleration = physics::calculate_gravity(blackholes, ball);
+            ball.update_velocity(acceleration, args.dt)
+        }
+        let balls = &mut self.balls;
+
+        balls.retain(|ball| !blackholes.iter().any(|hole| hole.is_spagettified(ball)));
+
         // Check if any balls are in the goalzones, removing and adding score
         // accordingly
-        let balls = &mut self.balls;
         let goalzones = &self.goalzones;
         let mut score = self.score;
 
@@ -166,7 +181,7 @@ impl Game {
                 true => {
                     score += ball.get_value();
                     false
-                },
+                }
                 false => true,
             }
         });

@@ -20,12 +20,12 @@ fn gravity_acc(mass: f64, distance: f64) -> f64 {
 /**
  * Calculates the acceleration acting upon the ball from the given black holes
  */
-pub fn calculate_gravity(blackholes: Vec<blackhole::Blackhole>,
-                         ball: poolball::Poolball)
+pub fn calculate_gravity(blackholes: &Vec<blackhole::Blackhole>,
+                         ball: &poolball::Poolball)
                          -> Vector2<f64> {
     let mut result = Vector2::new(0.0, 0.0);
     // Calculate each acceleration vector individually and add them to the reuslt
-    for blackhole in &blackholes {
+    for blackhole in blackholes {
         let distance = ball.position.distance(&blackhole.position);
 
         if distance < blackhole.reach {
@@ -184,7 +184,7 @@ fn test_calculate_gravity() {
     let blackholes = vec![blackhole::Blackhole::new(Point2::new(0.0, 0.0), 1.0, 1.0, 1.0),
                           blackhole::Blackhole::new(Point2::new(0.0, 1.0), 1.0, 1.0, 1.0)];
     let ball = poolball::Poolball::new(Point2::new(1.0, 1.0), poolball::BallType::Red);
-    let acc_vector = calculate_gravity(blackholes, ball);
+    let acc_vector = calculate_gravity(&blackholes, &ball);
     assert!((acc_vector.len() as f64) -
             ((1.0 / (8.0_f64).sqrt() *
               Vector2::new(-1.0 - (8.0_f64).sqrt(),
@@ -198,7 +198,7 @@ fn test_calculate_gravity_reach() {
     let blackholes = vec![blackhole::Blackhole::new(Point2::new(0.0, 0.0), 1.0, 1.0, 0.0),
                           blackhole::Blackhole::new(Point2::new(0.0, 1.0), 1.0, 1.0, 0.0)];
     let ball = poolball::Poolball::new(Point2::new(1.0, 1.0), poolball::BallType::Red);
-    let acc_vector = calculate_gravity(blackholes, ball);
+    let acc_vector = calculate_gravity(&blackholes, &ball);
     assert_eq!(acc_vector, Vector2::new(0.0, 0.0));
 }
 
