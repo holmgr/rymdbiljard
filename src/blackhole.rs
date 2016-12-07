@@ -8,6 +8,12 @@ use na::Point2;
 use poolball;
 use std::f64;
 
+/**
+ * Blackhole is a physical entity which can be created at a given position and
+ * then affects surrounding poolballs with its gravity, given that they are
+ * within the reach. The magnitude of the force is dependant on the mass of
+ * the blackhole. The radius determines the deadly range of the blackhole.
+ */
 pub struct Blackhole {
     pub position: Point2<f64>,
     pub mass: f64,
