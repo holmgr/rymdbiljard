@@ -10,7 +10,7 @@ const FRICTION: f64 = 0.01;
  * Calculates the gravity acceleration from an object with given mass at given
  * distance
  */
-fn gravity_acc(mass: f64, distance: f64) -> f64 {
+fn gravity_acceleration(mass: f64, distance: f64) -> f64 {
     // let gravity_constant = 6.673 * (10.0_f32).powf(-11.0);
     // We use gravity_constant = 1 for now, as the actual constant would require very high mass
     let gravity_constant = 1.0;
@@ -31,7 +31,7 @@ pub fn calculate_gravity(blackholes: &Vec<blackhole::Blackhole>,
         if distance < blackhole.reach {
             let direction_vector = blackhole.position.to_vector() - ball.position.to_vector();
             let normalized_vector = direction_vector.normalize();
-            result += normalized_vector * gravity_acc(blackhole.mass, distance);
+            result += normalized_vector * gravity_acceleration(blackhole.mass, distance);
         }
     }
     return result;
@@ -41,7 +41,7 @@ pub fn calculate_gravity(blackholes: &Vec<blackhole::Blackhole>,
  * Calculates the direction and size of the friction acceleration on the given
  * ball
  */
-pub fn friction(poolball: &poolball::Poolball) -> Vector2<f64> {
+pub fn calculate_friction(poolball: &poolball::Poolball) -> Vector2<f64> {
     if poolball.velocity == Vector2::new(0.0, 0.0) {
         return Vector2::new(0.0, 0.0);
     }
@@ -87,9 +87,6 @@ pub fn time_to_ball_ball_collision(a: &poolball::Poolball, b: &poolball::Poolbal
     // Calculate the distance between the centers and their combined radius
     // let mut dist = a.position.distance(&b.position);
     let sum_radii = a.radius + b.radius;
-
-    // If we are not moving a large enough distance, we will not collide
-    // dist-= sum_radii;
 
     // Normalize the movement vector
     let normalized_vector = move_vec.normalize();
@@ -168,7 +165,7 @@ pub fn ball_wall_collision(ball: &mut poolball::Poolball) {
 
 // Basic tests for gravity_acc
 #[test]
-fn test_gravity_acc() {
+fn test_gravity_acceleration() {
     let acceleration = gravity_acc(1.0, 1.0);
     assert_eq!(acceleration, 1.0);
     let acceleration = gravity_acc(1.0, 2.0);
@@ -203,7 +200,7 @@ fn test_calculate_gravity_reach() {
 }
 
 #[test]
-fn test_friction() {
+fn test_calculate_friction() {
     let mut ball = poolball::Poolball::new(Point2::new(1.0, 1.0), poolball::BallType::Red);
     assert_eq!(friction(&mut ball), Vector2::new(0.0, 0.0));
 
