@@ -163,7 +163,7 @@ impl Game {
 
         // Check if white ball exists, spawn new if not as long as the score is
         // positive
-        let pos = self.balls.iter().position(|elem| elem.ball_type == poolball::BallType::White);
+        let pos = white_ball_position(&self.balls);
         match pos {
             // White ball is dead but we have enough score to spawn a new one
             None if self.score > 0 => {
@@ -251,4 +251,11 @@ impl Game {
         }
         earliest_collision_pair
     }
+}
+
+/**
+* Searches for the white ball in the vector returning its index
+*/
+fn white_ball_position(balls: &Vec<poolball::Poolball>) -> Option<usize> {
+    balls.iter().position(|elem| elem.ball_type == poolball::BallType::White)
 }
