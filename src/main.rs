@@ -36,7 +36,7 @@ fn main() {
         .unwrap();
     let mut gl = GlGraphics::new(opengl);
 
-    // Create some starting cueballs
+    // Create some starting poolballs
     let mut balls = vec![
         poolball::Poolball::new(Point2::new(0.5, 0.3), poolball::BallType::White),
         poolball::Poolball::new(Point2::new(0.1, 0.1), poolball::BallType::Red),
@@ -71,7 +71,7 @@ fn main() {
         goalzone::Goalzone::new(Point2::new(1.0, 1.0)),
     ];
 
-    // Set velocity for all balls
+    // Set velocity for all poolballs
     for ball in &mut balls {
         ball.set_velocity(Vector2::new(0.2, -0.3));
     }
@@ -93,7 +93,7 @@ fn main() {
             game.update(&u);
         }
 
-        // Listen for user pressing space
+        // Listen for user input
         if let Some(Button::Keyboard(key)) = e.press_args() {
             if key == Key::Space {
                 game.try_switch_mode();

@@ -59,7 +59,7 @@ pub fn calculate_friction(poolball: &poolball::Poolball) -> Vector2<f64> {
 }
 
 /**
-* Calculates the new velocities for 2 colloding bals after time delta_time,
+* Calculates the new velocities for 2 colliding poolballs after time delta_time,
 * (delta_time is in seconds)
 */
 pub fn ball_ball_collision(ball1: &mut poolball::Poolball, ball2: &mut poolball::Poolball) {
@@ -86,7 +86,8 @@ pub fn ball_ball_collision(ball1: &mut poolball::Poolball, ball2: &mut poolball:
 }
 
 /**
- * Checks for collision between the given balls
+ * Returns the time until the given two poolballs collide given their current
+ * velocities. Infinity is returned if the two poolballs never collide
  */
 pub fn time_to_ball_ball_collision(a: &poolball::Poolball, b: &poolball::Poolball) -> f64 {
     // We pretend that b is stationary and compensate by subtracting its movement vector from a's
@@ -171,7 +172,7 @@ pub fn ball_wall_collision(ball: &mut poolball::Poolball) {
     ball.set_velocity(tmp);
 }
 
-// Basic tests for gravity_acc
+// Basic tests for gravity_acceleration
 #[test]
 fn test_gravity_acceleration() {
     let acceleration = gravity_acceleration(1.0, 1.0);
@@ -183,7 +184,8 @@ fn test_gravity_acceleration() {
 }
 
 
-// Basic test for gravity_acc. Has some error-margin because of rounding errors.
+// Basic test for gravity_acceleration. Has some error-margin because of
+// rounding errors.
 #[test]
 fn test_calculate_gravity() {
     let blackholes = vec![blackhole::Blackhole::new(Point2::new(0.0, 0.0), 1.0, 1.0, 1.0),

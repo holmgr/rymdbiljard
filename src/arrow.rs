@@ -34,7 +34,7 @@ const DEFAULT_LENGTH: f64 = 0.1;
 
 impl Arrow {
     /**
-     * Constructs a new Blackhole with the given properties
+     * Constructs a new Arrow at the given position
      */
     pub fn new(position: Point2<f64>) -> Arrow {
         Arrow {

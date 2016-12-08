@@ -27,7 +27,7 @@ impl Goalzone {
     }
 
     /**
-     * Returns whether a given poolball is within the goalzone
+     * Returns `true` if the given poolball is inside the goalzone
      */
     pub fn reached_goal(&self, ball: &poolball::Poolball) -> bool {
         self.position.distance(&ball.position) <= self.radius + ball.radius
