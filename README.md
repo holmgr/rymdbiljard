@@ -14,7 +14,7 @@ stop it from attracting all balls, regardless of their distance.
 
 To calculate the physics we use a time step solution which simulates how the objects
 properties would change over the time it is given each step. The time for the 
-step may vary between steps. To solve the collisions, we use a simle but powerful 
+step may vary between steps. To solve the collisions, we use a simple but powerful 
 algorithm to make sure all collisions happen in the right order. 
 
 1. Calculate the collision time for all collisions that will happen if the objects continue with 
