@@ -166,11 +166,11 @@ pub fn ball_wall_collision(ball: &mut poolball::Poolball) {
 // Basic tests for gravity_acc
 #[test]
 fn test_gravity_acceleration() {
-    let acceleration = gravity_acc(1.0, 1.0);
+    let acceleration = gravity_acceleration(1.0, 1.0);
     assert_eq!(acceleration, 1.0);
-    let acceleration = gravity_acc(1.0, 2.0);
+    let acceleration = gravity_acceleration(1.0, 2.0);
     assert_eq!(acceleration, 0.25);
-    let acceleration = gravity_acc(2.5, 2.0);
+    let acceleration = gravity_acceleration(2.5, 2.0);
     assert_eq!(acceleration, 0.625);
 }
 
@@ -202,11 +202,11 @@ fn test_calculate_gravity_reach() {
 #[test]
 fn test_calculate_friction() {
     let mut ball = poolball::Poolball::new(Point2::new(1.0, 1.0), poolball::BallType::Red);
-    assert_eq!(friction(&mut ball), Vector2::new(0.0, 0.0));
+    assert_eq!(calculate_friction(&mut ball), Vector2::new(0.0, 0.0));
 
     let mut ball2 = poolball::Poolball::new(Point2::new(1.0, 1.0), poolball::BallType::Red);
     ball2.velocity = Vector2::new(1.0, 0.0);
-    assert_eq!(Vector2::new(-1.0, 0.0) * FRICTION, friction(&mut ball2));
+    assert_eq!(Vector2::new(-1.0, 0.0) * FRICTION, calculate_friction(&mut ball2));
 }
 
 
