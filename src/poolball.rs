@@ -5,6 +5,10 @@ use graphics::Transformed;
 use graphics::ellipse;
 use num_traits::Zero;
 
+/**
+ * Poolball contains information about a single poolball in the game, and
+ * methods for manipulating this poolballs physical status
+ */
 #[derive(Clone, Debug, PartialEq)]
 pub struct Poolball {
     pub position: Point2<f64>,
@@ -14,6 +18,10 @@ pub struct Poolball {
     pub ball_type: BallType,
 }
 
+/**
+ * Used to differentiate between the different colored poolballs.
+ * Only one poolball maybe White at any given moment
+ */
 #[derive(Clone, Debug, PartialEq)]
 pub enum BallType {
     White,

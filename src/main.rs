@@ -57,6 +57,11 @@ fn main() {
         poolball::Poolball::new(Point2::new(0.1, 0.9), poolball::BallType::Blue),
     ];
 
+    // Create blackholes
+    let blackholes = vec![
+        blackhole::Blackhole::new(Point2::new(0.6, 0.7), 0.01, 0.0000001, 0.1),
+    ];
+
     // Create goalzones
     let goalzones = vec![
         goalzone::Goalzone::new(Point2::new(0.0, 0.0)),
@@ -67,11 +72,11 @@ fn main() {
 
     // Set velocity for all balls
     for ball in &mut balls {
-        ball.set_velocity(Vector2::new(0.09, -0.05));
+        ball.set_velocity(Vector2::new(0.2, -0.3));
     }
 
     // Create and start the game
-    let mut game = game::Game::new(balls, Vec::new(), goalzones);
+    let mut game = game::Game::new(balls, blackholes, goalzones);
 
     let font_path = Path::new("assets/FiraSans-Regular.ttf");
     let ref mut cache = GlyphCache::new(font_path).unwrap();
