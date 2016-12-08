@@ -23,8 +23,7 @@ pub struct Blackhole {
 
 impl Blackhole {
     /**
-     * Creates a new Blackhole with initial position (Point2 with x and y
-     * cocoridnate), mass, radius (of the hole) and reach for the gravity
+     * Constructs a new Blackhole with the given properties
      */
     pub fn new(position: Point2<f64>, mass: f64, radius: f64, reach: f64) -> Blackhole {
         Blackhole {
@@ -36,8 +35,7 @@ impl Blackhole {
     }
 
     /**
-     * Return whether a given poolball is within the deadly range for this
-     * blackhole
+     * Returns `true` if the given poolball is in contact with the blackhole
      */
     pub fn is_spagettified(&self, poolball: &poolball::Poolball) -> bool {
         let distance = ((self.position.x - poolball.position.x).powi(2) +

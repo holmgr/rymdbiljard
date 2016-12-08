@@ -1,9 +1,8 @@
-use na::{Vector2, Point2};
+use na::{Vector2, Point2, ApproxEq};
 use piston::input::RenderArgs;
 use opengl_graphics::GlGraphics;
 use graphics::Transformed;
 use graphics::ellipse;
-use num_traits::Zero;
 
 /**
  * Poolball contains information about a single poolball in the game, and
@@ -34,7 +33,7 @@ const RADIUS: f64 = 0.01;
 
 impl Poolball {
     /**
-     * Creates a new Poolball with a initial position and velocity
+     * Creates a new Poolball with the given initial position and velocity
      */
     pub fn new(position: Point2<f64>, ball_type: BallType) -> Poolball {
         Poolball {
@@ -47,14 +46,14 @@ impl Poolball {
     }
 
     /**
-     * Updates the cueballs position using its current velocity
+     * Updates the poolball position using its current velocity
      */
     pub fn update(&mut self, delta_time: f64) {
         self.position += self.velocity * delta_time;
     }
 
     /**
-     * Updates the velocity of the cueball given the perceived acceleration
+     * Updates the velocity of the poolball given the perceived acceleration
      */
     pub fn update_velocity(&mut self, acceleration: Vector2<f64>, delta_time: f64) {
         self.velocity += acceleration * delta_time;
@@ -68,7 +67,10 @@ impl Poolball {
     }
 
     /**
-     * Returns the value of the given ball depending on its color (ball_type)
+     * Returns the score value of the poolball based on the ball type
+     * - White: -100
+     * - Red: 10
+     * - Blue: 30
      */
     pub fn get_value(&self) -> i32 {
         match self.ball_type {
@@ -79,10 +81,11 @@ impl Poolball {
     }
 
     /**
-     * Returns true if the poolball is stationary
+     * Returns `true` if the poolball is stationary
      */
     pub fn is_stationary(&self) -> bool {
-        self.velocity.is_zero()
+        let eps = 0.005;
+        self.velocity.approx_eq_eps(&Vector2::new(0.0, 0.0), &eps)
     }
 
     /**

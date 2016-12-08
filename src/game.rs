@@ -9,6 +9,7 @@ use poolball;
 use goalzone;
 use blackhole;
 use physics;
+use arrow;
 
 /**
  * Struct used for holding information about a ball-ball collision or a
@@ -32,6 +33,7 @@ pub struct Game {
     blackholes: Vec<blackhole::Blackhole>,
     goalzones: Vec<goalzone::Goalzone>,
     score: i32,
+    arrow: arrow::Arrow,
 }
 
 impl Game {
@@ -47,12 +49,13 @@ impl Game {
             blackholes: blackholes,
             goalzones: goalzones,
             score: 0,
+            arrow: arrow::Arrow::new(Point2::new(0.0, 0.0)),
         }
     }
 
     /**
      * Renders the current game state including the cueballs, current score,
-     * blackholes and goalzones using the GlGraphics
+     * blackholes, goalzones and the arrow indicator using the GlGraphics
      */
     pub fn render(&mut self, gl: &mut GlGraphics, args: &RenderArgs, cache: &mut GlyphCache) {
         use graphics::*;
@@ -88,6 +91,42 @@ impl Game {
         for blackhole in &self.blackholes {
             blackhole.render(args, gl);
         }
+
+        // Draw a line for the shooting if white ball exists
+        if let Some(pos) = white_ball_position(&self.balls) {
+            let white_ball = self.balls.get(pos).unwrap();
+            if white_ball.is_stationary() {
+                self.arrow.render(args, gl);
+            }
+        }
+    }
+
+    /**
+     * Attemps to switch to the next mode in the shooting stage only being
+     * able to do so if the white ball is stationary
+     */
+    pub fn try_switch_mode(&mut self) {
+
+        if let Some(pos) = white_ball_position(&self.balls) {
+            let white_ball = self.balls.get_mut(pos).unwrap();
+            if !white_ball.is_stationary() {
+                return;
+            }
+
+            let mut arrow = &mut self.arrow;
+            match arrow.mode {
+                arrow::ShootingMode::Rotate => {
+                    arrow.mode = arrow::ShootingMode::Power;
+                }
+                arrow::ShootingMode::Power => {
+                    const SPEED_MULT: f64 = 5.0;
+                    let velocity = arrow.direction.clone() * arrow.length * SPEED_MULT;
+                    white_ball.set_velocity(velocity);
+                    arrow.mode = arrow::ShootingMode::Rotate;
+                }
+            }
+        }
+
     }
 
     /**
@@ -95,6 +134,14 @@ impl Game {
      * collisions
     */
     pub fn update(&mut self, args: &UpdateArgs) {
+
+        if let Some(pos) = white_ball_position(&self.balls) {
+            let white_ball = self.balls.get(pos).unwrap();
+            if white_ball.is_stationary() {
+                self.arrow.position = white_ball.position.clone();
+                self.arrow.update(args.dt);
+            }
+        }
 
         // Save tatal time budget
         let mut time_left = args.dt;

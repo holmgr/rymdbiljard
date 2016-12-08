@@ -22,6 +22,7 @@ mod physics;
 mod blackhole;
 mod math;
 mod game;
+mod arrow;
 
 fn main() {
     // Change this to OpenGL::V2_1 if not working.
@@ -90,6 +91,13 @@ fn main() {
 
         if let Some(u) = e.update_args() {
             game.update(&u);
+        }
+
+        // Listen for user pressing space
+        if let Some(Button::Keyboard(key)) = e.press_args() {
+            if key == Key::Space {
+                game.try_switch_mode();
+            }
         }
     }
 }
