@@ -151,7 +151,7 @@ impl Game {
 
         // Add friction for this time step
         for ball in &mut self.balls {
-            let friction = physics::friction(ball);
+            let friction = physics::calculate_friction(ball);
             ball.update_velocity(friction, args.dt);
         }
 
@@ -166,7 +166,7 @@ impl Game {
                 true => {
                     score += ball.get_value();
                     false
-                },
+                }
                 false => true,
             }
         });
