@@ -3,6 +3,7 @@ use opengl_graphics::GlGraphics;
 use opengl_graphics::glyph_cache::GlyphCache;
 use na::Point2;
 use std::f64;
+use std::process::exit;
 
 use poolball;
 use goalzone;
@@ -158,6 +159,23 @@ impl Game {
         for ball in &mut self.balls {
             let friction = physics::friction(ball);
             ball.update_velocity(friction, args.dt);
+        }
+
+        // Check if white ball exists, spawn new if not as long as the score is
+        // positive
+        let pos = self.balls.iter().position(|elem| elem.ball_type == poolball::BallType::White);
+        match pos {
+            // White ball is dead but we have enough score to spawn a new one
+            None if self.score > 0 => {
+                let new_white_ball = poolball::Poolball::new(Point2::new(0.1, 0.1),
+                                                             poolball::BallType::White);
+                self.balls.push(new_white_ball);
+            }
+            // No score left to respawn, game over
+            None => {
+                exit(0); // Game over kills processs as of now
+            }
+            _ => {}
         }
 
         // Add accelerations for all balls within blackholes
