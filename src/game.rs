@@ -23,10 +23,9 @@ struct CollisionPair {
 }
 
 /**
- * Main struct for the global game state information, such as the cueballs in
- * play, goalzones and eventual blackholes etc.
- * Also implements the main gameplay functionality such as the update function
- * and collision handling algorithm.
+ * Contains information about the global game state as well as methods for
+ * handling the overarching game mechanics including the update loop and
+ * the collision handling algorithm.
  */
 pub struct Game {
     balls: Vec<poolball::Poolball>,
@@ -54,8 +53,8 @@ impl Game {
     }
 
     /**
-     * Renders the current game state including the cueballs, current score,
-     * blackholes, goalzones and the arrow indicator using the GlGraphics
+     * Renders the current game state including the poolballs, current score,
+     * blackholes, goalzones and the arrow indicator using GlGraphics
      */
     pub fn render(&mut self, gl: &mut GlGraphics, args: &RenderArgs, cache: &mut GlyphCache) {
         use graphics::*;
@@ -82,7 +81,7 @@ impl Game {
             goalzone.render(args, gl);
         }
 
-        // Draw all cueballs
+        // Draw all poolballs
         for ball in &self.balls {
             ball.render(args, gl);
         }
@@ -102,8 +101,8 @@ impl Game {
     }
 
     /**
-     * Attemps to switch to the next mode in the shooting stage only being
-     * able to do so if the white ball is stationary
+     * Attemps to switch to the next mode in the shooting stage doing so
+     * if and only if the white ball is stationary
      */
     pub fn try_switch_mode(&mut self) {
 
@@ -130,11 +129,12 @@ impl Game {
     }
 
     /**
-     * Updates the positon, speeds etc for all cueballs aswell as handling the
-     * collisions
+     * Updates the positon, speeds and so on for all poolballs aswell as
+     * handling the collisions
     */
     pub fn update(&mut self, args: &UpdateArgs) {
 
+        // Update the arrow positon and orientation
         if let Some(pos) = white_ball_position(&self.balls) {
             let white_ball = self.balls.get(pos).unwrap();
             if white_ball.is_stationary() {
@@ -150,7 +150,7 @@ impl Game {
         // While there exists a collision within this time step
         while time < time_left {
 
-            // Remove the collision pair form the list of cueballs
+            // Remove the collision pair form the list of poolballs
             self.balls.retain(|elem| {
                 match second {
                     Some(ref mut second) => *elem != first && *elem != *second,
@@ -256,7 +256,7 @@ impl Game {
 
     /**
      * Returns a collision pair for the earlies collision by going throguh all
-     * cueballs searching for the ball-wall or ball-ball pair with the earlies
+     * poolballs searching for the ball-wall or ball-ball pair with the earlies
      * collision time
      */
     fn get_first_collision_pair(&self) -> CollisionPair {
@@ -267,7 +267,7 @@ impl Game {
             time: f64::INFINITY,
         };
 
-        // Go throguh all cueballs
+        // Go throguh all poolball
         let mut iter = self.balls.iter();
         while let Some(first) = iter.next() {
 

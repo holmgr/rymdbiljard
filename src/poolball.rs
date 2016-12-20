@@ -5,7 +5,7 @@ use graphics::Transformed;
 use graphics::ellipse;
 
 /**
- * Poolball contains information about a single poolball in the game, and
+ * Poolball containing information about a single poolball in the game, and
  * methods for manipulating this poolballs physical status
  */
 #[derive(Clone, Debug, PartialEq)]
