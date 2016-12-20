@@ -7,7 +7,7 @@ Course at Linköping University. Rymdbiljard is a basic billiards game in which
 the player is faced with the problem of knocking all poolballs into some goal-zone
 by hitting them with the white poolball of which he/she has control over.
 
-[Preview gif of project](preview.gif)
+![Preview gif of project](preview.gif)
 
 The project relies on some third party libraries
 mainly [nalgebra](https://github.com/sebcrozet/nalgebra) for linear algebra
