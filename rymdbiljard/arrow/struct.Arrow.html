@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Arrow` struct in crate `rymdbiljard`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Arrow">
+
+    <title>rymdbiljard::arrow::Arrow - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>rymdbiljard</a>::<wbr><a href='index.html'>arrow</a></p><script>window.sidebarCurrent = {name: 'Arrow', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rymdbiljard</a>::<wbr><a href='index.html'>arrow</a>::<wbr><a class='struct' href=''>Arrow</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-303' class='srclink' href='../../src/rymdbiljard/src/arrow.rs.html#12-18' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Arrow {
+    pub position: <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/point/struct.Point2.html' title='nalgebra::structs::point::Point2'>Point2</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;,
+    pub direction: <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/vector/struct.Vector2.html' title='nalgebra::structs::vector::Vector2'>Vector2</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;,
+    pub length: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>,
+    pub mode: <a class='enum' href='../../rymdbiljard/arrow/enum.ShootingMode.html' title='rymdbiljard::arrow::ShootingMode'>ShootingMode</a>,
+    pub time_passed: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>,
+}</pre><div class='docblock'><p>Basic arrow entity which is used for drawing the direction and power in the
+shooting mode</p>
+</div><h2 class='fields'>Fields</h2><span id='structfield.position' class='structfield'>
+                           <span id='position.v' class='invisible'>
+                           <code>position: <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/point/struct.Point2.html' title='nalgebra::structs::point::Point2'>Point2</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;</code>
+                           </span></span><span class='stab '></span><span id='structfield.direction' class='structfield'>
+                           <span id='direction.v' class='invisible'>
+                           <code>direction: <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/vector/struct.Vector2.html' title='nalgebra::structs::vector::Vector2'>Vector2</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;</code>
+                           </span></span><span class='stab '></span><span id='structfield.length' class='structfield'>
+                           <span id='length.v' class='invisible'>
+                           <code>length: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code>
+                           </span></span><span class='stab '></span><span id='structfield.mode' class='structfield'>
+                           <span id='mode.v' class='invisible'>
+                           <code>mode: <a class='enum' href='../../rymdbiljard/arrow/enum.ShootingMode.html' title='rymdbiljard::arrow::ShootingMode'>ShootingMode</a></code>
+                           </span></span><span class='stab '></span><span id='structfield.time_passed' class='structfield'>
+                           <span id='time_passed.v' class='invisible'>
+                           <code>time_passed: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code>
+                           </span></span><span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../rymdbiljard/arrow/struct.Arrow.html' title='rymdbiljard::arrow::Arrow'>Arrow</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-312' class='srclink' href='../../src/rymdbiljard/src/arrow.rs.html#35-93' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(position: <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/point/struct.Point2.html' title='nalgebra::structs::point::Point2'>Point2</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;) -&gt; <a class='struct' href='../../rymdbiljard/arrow/struct.Arrow.html' title='rymdbiljard::arrow::Arrow'>Arrow</a></code></span></h4>
+<div class='docblock'><p>Constructs a new Arrow at the given position</p>
+</div><h4 id='method.update' class='method'><span id='update.v' class='invisible'><code>fn <a href='#method.update' class='fnname'>update</a>(&amp;mut self, delta_time: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</code></span></h4>
+<div class='docblock'><p>Updates the arrow position, direction and length</p>
+</div><h4 id='method.render' class='method'><span id='render.v' class='invisible'><code>fn <a href='#method.render' class='fnname'>render</a>(&amp;self, args: &amp;RenderArgs, gl: &amp;mut GlGraphics)</code></span></h4>
+<div class='docblock'><p>Renders itself using the given graphics</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rymdbiljard";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

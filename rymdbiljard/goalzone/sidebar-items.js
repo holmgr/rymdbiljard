@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["RADIUS",""]],"struct":[["Goalzone","Implements a basic goalzone to be used in each corner of the playing field."]]});

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Game` struct in crate `rymdbiljard`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Game">
+
+    <title>rymdbiljard::game::Game - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>rymdbiljard</a>::<wbr><a href='index.html'>game</a></p><script>window.sidebarCurrent = {name: 'Game', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rymdbiljard</a>::<wbr><a href='index.html'>game</a>::<wbr><a class='struct' href=''>Game</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-205' class='srclink' href='../../src/rymdbiljard/src/game.rs.html#30-36' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Game {
+    balls: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../rymdbiljard/poolball/struct.Poolball.html' title='rymdbiljard::poolball::Poolball'>Poolball</a>&gt;,
+    blackholes: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../rymdbiljard/blackhole/struct.Blackhole.html' title='rymdbiljard::blackhole::Blackhole'>Blackhole</a>&gt;,
+    goalzones: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../rymdbiljard/goalzone/struct.Goalzone.html' title='rymdbiljard::goalzone::Goalzone'>Goalzone</a>&gt;,
+    score: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a>,
+    arrow: <a class='struct' href='../../rymdbiljard/arrow/struct.Arrow.html' title='rymdbiljard::arrow::Arrow'>Arrow</a>,
+}</pre><div class='docblock'><p>Contains information about the global game state as well as methods for
+handling the overarching game mechanics including the update loop and
+the collision handling algorithm.</p>
+</div><h2 class='fields'>Fields</h2><span id='structfield.balls' class='structfield'>
+                           <span id='balls.v' class='invisible'>
+                           <code>balls: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../rymdbiljard/poolball/struct.Poolball.html' title='rymdbiljard::poolball::Poolball'>Poolball</a>&gt;</code>
+                           </span></span><span class='stab '></span><span id='structfield.blackholes' class='structfield'>
+                           <span id='blackholes.v' class='invisible'>
+                           <code>blackholes: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../rymdbiljard/blackhole/struct.Blackhole.html' title='rymdbiljard::blackhole::Blackhole'>Blackhole</a>&gt;</code>
+                           </span></span><span class='stab '></span><span id='structfield.goalzones' class='structfield'>
+                           <span id='goalzones.v' class='invisible'>
+                           <code>goalzones: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../rymdbiljard/goalzone/struct.Goalzone.html' title='rymdbiljard::goalzone::Goalzone'>Goalzone</a>&gt;</code>
+                           </span></span><span class='stab '></span><span id='structfield.score' class='structfield'>
+                           <span id='score.v' class='invisible'>
+                           <code>score: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></code>
+                           </span></span><span class='stab '></span><span id='structfield.arrow' class='structfield'>
+                           <span id='arrow.v' class='invisible'>
+                           <code>arrow: <a class='struct' href='../../rymdbiljard/arrow/struct.Arrow.html' title='rymdbiljard::arrow::Arrow'>Arrow</a></code>
+                           </span></span><span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../rymdbiljard/game/struct.Game.html' title='rymdbiljard::game::Game'>Game</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-211' class='srclink' href='../../src/rymdbiljard/src/game.rs.html#38-301' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(balls: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../rymdbiljard/poolball/struct.Poolball.html' title='rymdbiljard::poolball::Poolball'>Poolball</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; blackholes: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../rymdbiljard/blackhole/struct.Blackhole.html' title='rymdbiljard::blackhole::Blackhole'>Blackhole</a>&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; goalzones: <a class='struct' href='https://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a class='struct' href='../../rymdbiljard/goalzone/struct.Goalzone.html' title='rymdbiljard::goalzone::Goalzone'>Goalzone</a>&gt;)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -&gt; Self</code></span></h4>
+<div class='docblock'><p>Creates a new game given the specified parameters</p>
+</div><h4 id='method.render' class='method'><span id='render.v' class='invisible'><code>fn <a href='#method.render' class='fnname'>render</a>(&amp;mut self,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; gl: &amp;mut GlGraphics,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; args: &amp;RenderArgs,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cache: &amp;mut GlyphCache)</code></span></h4>
+<div class='docblock'><p>Renders the current game state including the poolballs, current score,
+blackholes, goalzones and the arrow indicator using GlGraphics</p>
+</div><h4 id='method.try_switch_mode' class='method'><span id='try_switch_mode.v' class='invisible'><code>fn <a href='#method.try_switch_mode' class='fnname'>try_switch_mode</a>(&amp;mut self)</code></span></h4>
+<div class='docblock'><p>Attemps to switch to the next mode in the shooting stage doing so
+if and only if the white ball is stationary</p>
+</div><h4 id='method.update' class='method'><span id='update.v' class='invisible'><code>fn <a href='#method.update' class='fnname'>update</a>(&amp;mut self, args: &amp;UpdateArgs)</code></span></h4>
+<div class='docblock'><p>Updates the positon, speeds and so on for all poolballs aswell as
+handling the collisions</p>
+</div><h4 id='method.get_first_collision_pair' class='method'><span id='get_first_collision_pair.v' class='invisible'><code>fn <a href='#method.get_first_collision_pair' class='fnname'>get_first_collision_pair</a>(&amp;self) -&gt; <a class='struct' href='../../rymdbiljard/game/struct.CollisionPair.html' title='rymdbiljard::game::CollisionPair'>CollisionPair</a></code></span></h4>
+<div class='docblock'><p>Returns a collision pair for the earlies collision by going throguh all
+poolballs searching for the ball-wall or ball-ball pair with the earlies
+collision time</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rymdbiljard";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

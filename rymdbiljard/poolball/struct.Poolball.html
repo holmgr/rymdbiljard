@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `Poolball` struct in crate `rymdbiljard`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Poolball">
+
+    <title>rymdbiljard::poolball::Poolball - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>rymdbiljard</a>::<wbr><a href='index.html'>poolball</a></p><script>window.sidebarCurrent = {name: 'Poolball', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rymdbiljard</a>::<wbr><a href='index.html'>poolball</a>::<wbr><a class='struct' href=''>Poolball</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-349' class='srclink' href='../../src/rymdbiljard/src/poolball.rs.html#12-18' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Poolball {
+    pub position: <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/point/struct.Point2.html' title='nalgebra::structs::point::Point2'>Point2</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;,
+    pub radius: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>,
+    pub mass: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>,
+    pub velocity: <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/vector/struct.Vector2.html' title='nalgebra::structs::vector::Vector2'>Vector2</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;,
+    pub ball_type: <a class='enum' href='../../rymdbiljard/poolball/enum.BallType.html' title='rymdbiljard::poolball::BallType'>BallType</a>,
+}</pre><div class='docblock'><p>Poolball containing information about a single poolball in the game, and
+methods for manipulating this poolballs physical status</p>
+</div><h2 class='fields'>Fields</h2><span id='structfield.position' class='structfield'>
+                           <span id='position.v' class='invisible'>
+                           <code>position: <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/point/struct.Point2.html' title='nalgebra::structs::point::Point2'>Point2</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;</code>
+                           </span></span><span class='stab '></span><span id='structfield.radius' class='structfield'>
+                           <span id='radius.v' class='invisible'>
+                           <code>radius: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code>
+                           </span></span><span class='stab '></span><span id='structfield.mass' class='structfield'>
+                           <span id='mass.v' class='invisible'>
+                           <code>mass: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a></code>
+                           </span></span><span class='stab '></span><span id='structfield.velocity' class='structfield'>
+                           <span id='velocity.v' class='invisible'>
+                           <code>velocity: <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/vector/struct.Vector2.html' title='nalgebra::structs::vector::Vector2'>Vector2</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;</code>
+                           </span></span><span class='stab '></span><span id='structfield.ball_type' class='structfield'>
+                           <span id='ball_type.v' class='invisible'>
+                           <code>ball_type: <a class='enum' href='../../rymdbiljard/poolball/enum.BallType.html' title='rymdbiljard::poolball::BallType'>BallType</a></code>
+                           </span></span><span class='stab '></span><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl <a class='struct' href='../../rymdbiljard/poolball/struct.Poolball.html' title='rymdbiljard::poolball::Poolball'>Poolball</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-27' class='srclink' href='../../src/rymdbiljard/src/poolball.rs.html#34-119' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(position: <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/point/struct.Point2.html' title='nalgebra::structs::point::Point2'>Point2</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;, ball_type: <a class='enum' href='../../rymdbiljard/poolball/enum.BallType.html' title='rymdbiljard::poolball::BallType'>BallType</a>) -&gt; <a class='struct' href='../../rymdbiljard/poolball/struct.Poolball.html' title='rymdbiljard::poolball::Poolball'>Poolball</a></code></span></h4>
+<div class='docblock'><p>Creates a new Poolball with the given initial position and velocity</p>
+</div><h4 id='method.update' class='method'><span id='update.v' class='invisible'><code>fn <a href='#method.update' class='fnname'>update</a>(&amp;mut self, delta_time: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</code></span></h4>
+<div class='docblock'><p>Updates the poolball position using its current velocity</p>
+</div><h4 id='method.update_velocity' class='method'><span id='update_velocity.v' class='invisible'><code>fn <a href='#method.update_velocity' class='fnname'>update_velocity</a>(&amp;mut self, acceleration: <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/vector/struct.Vector2.html' title='nalgebra::structs::vector::Vector2'>Vector2</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;, delta_time: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>)</code></span></h4>
+<div class='docblock'><p>Updates the velocity of the poolball given the perceived acceleration</p>
+</div><h4 id='method.set_velocity' class='method'><span id='set_velocity.v' class='invisible'><code>fn <a href='#method.set_velocity' class='fnname'>set_velocity</a>(&amp;mut self, new_velocity: <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/vector/struct.Vector2.html' title='nalgebra::structs::vector::Vector2'>Vector2</a>&lt;<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.f64.html'>f64</a>&gt;)</code></span></h4>
+<div class='docblock'><p>Sets the velocity of the ball to the given velocity</p>
+</div><h4 id='method.get_value' class='method'><span id='get_value.v' class='invisible'><code>fn <a href='#method.get_value' class='fnname'>get_value</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.i32.html'>i32</a></code></span></h4>
+<div class='docblock'><p>Returns the score value of the poolball based on the ball type
+- White: -100
+- Red: 10
+- Blue: 30</p>
+</div><h4 id='method.is_stationary' class='method'><span id='is_stationary.v' class='invisible'><code>fn <a href='#method.is_stationary' class='fnname'>is_stationary</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
+<div class='docblock'><p>Returns <code>true</code> if the poolball is stationary</p>
+</div><h4 id='method.render' class='method'><span id='render.v' class='invisible'><code>fn <a href='#method.render' class='fnname'>render</a>(&amp;self, args: &amp;RenderArgs, gl: &amp;mut GlGraphics)</code></span></h4>
+<div class='docblock'><p>Renders itself using the given graphics</p>
+</div></div><h2 id='implementations'>Trait Implementations</h2><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> for <a class='struct' href='../../rymdbiljard/poolball/struct.Poolball.html' title='rymdbiljard::poolball::Poolball'>Poolball</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-355' class='srclink' href='../../src/rymdbiljard/src/poolball.rs.html#11' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.clone' class='method'><span id='clone.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone' class='fnname'>clone</a>(&amp;self) -&gt; <a class='struct' href='../../rymdbiljard/poolball/struct.Poolball.html' title='rymdbiljard::poolball::Poolball'>Poolball</a></code></span></h4>
+<div class='docblock'><p>Returns a copy of the value. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#tymethod.clone">Read more</a></p>
+</div><h4 id='method.clone_from' class='method'><span id='clone_from.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from' class='fnname'>clone_from</a>(&amp;mut self, source: &amp;Self)</code><div class='since' title='Stable since Rust version 1.0.0'>1.0.0</div></span></h4>
+<div class='docblock'><p>Performs copy-assignment from <code>source</code>. <a href="https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html#method.clone_from">Read more</a></p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html' title='core::fmt::Debug'>Debug</a> for <a class='struct' href='../../rymdbiljard/poolball/struct.Poolball.html' title='rymdbiljard::poolball::Poolball'>Poolball</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-363' class='srclink' href='../../src/rymdbiljard/src/poolball.rs.html#11' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.fmt' class='method'><span id='fmt.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/fmt/trait.Debug.html#tymethod.fmt' class='fnname'>fmt</a>(&amp;self, __arg_0: &amp;mut <a class='struct' href='https://doc.rust-lang.org/nightly/core/fmt/struct.Formatter.html' title='core::fmt::Formatter'>Formatter</a>) -&gt; <a class='type' href='https://doc.rust-lang.org/nightly/core/fmt/type.Result.html' title='core::fmt::Result'>Result</a></code></span></h4>
+<div class='docblock'><p>Formats the value using the given formatter.</p>
+</div></div><h3 class='impl'><span class='in-band'><code>impl <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> for <a class='struct' href='../../rymdbiljard/poolball/struct.Poolball.html' title='rymdbiljard::poolball::Poolball'>Poolball</a></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-373' class='srclink' href='../../src/rymdbiljard/src/poolball.rs.html#11' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.eq' class='method'><span id='eq.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq' class='fnname'>eq</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../rymdbiljard/poolball/struct.Poolball.html' title='rymdbiljard::poolball::Poolball'>Poolball</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>self</code> and <code>other</code> values to be equal, and is used by <code>==</code>. <a href="https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#tymethod.eq">Read more</a></p>
+</div><h4 id='method.ne' class='method'><span id='ne.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html#method.ne' class='fnname'>ne</a>(&amp;self, __arg_0: &amp;<a class='struct' href='../../rymdbiljard/poolball/struct.Poolball.html' title='rymdbiljard::poolball::Poolball'>Poolball</a>) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
+<div class='docblock'><p>This method tests for <code>!=</code>.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rymdbiljard";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

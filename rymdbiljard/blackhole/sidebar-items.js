@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["Blackhole","Blackhole contains information about a single blackhole in the game, and methods for rendering and interacting with other entities"]]});

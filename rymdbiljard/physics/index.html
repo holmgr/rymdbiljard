@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `physics` mod in crate `rymdbiljard`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, physics">
+
+    <title>rymdbiljard::physics - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'><a href='../index.html'>rymdbiljard</a></p><script>window.sidebarCurrent = {name: 'physics', ty: 'mod', relpath: '../'};</script><script defer src="../sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content mod">
+<h1 class='fqn'><span class='in-band'>Module <a href='../index.html'>rymdbiljard</a>::<wbr><a class='mod' href=''>physics</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a id='src-90' class='srclink' href='../../src/rymdbiljard/src/physics.rs.html#1-338' title='goto source code'>[src]</a></span></h1>
+<h2 id='reexports' class='section-header'><a href="#reexports">Reexports</a></h2>
+<table><tr><td><code>use na::{<a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/vector/struct.Vector2.html' title='nalgebra::structs::vector::Vector2'>Vector2</a>, <a class='struct' href='http://nalgebra.org/doc/nalgebra/structs/point/struct.Point2.html' title='nalgebra::structs::point::Point2'>Point2</a>, <a class='trait' href='http://nalgebra.org/doc/nalgebra/traits/geometry/trait.Norm.html' title='nalgebra::traits::geometry::Norm'>Norm</a>, <a class='trait' href='http://nalgebra.org/doc/nalgebra/traits/structure/trait.FloatPoint.html' title='nalgebra::traits::structure::FloatPoint'>FloatPoint</a>, <a class='trait' href='http://nalgebra.org/doc/nalgebra/traits/geometry/trait.Dot.html' title='nalgebra::traits::geometry::Dot'>Dot</a>};</code></td></tr><tr><td><code>use <a class='mod' href='../../rymdbiljard/poolball/index.html' title='rymdbiljard::poolball'>poolball</a>;</code></td></tr><tr><td><code>use <a class='mod' href='../../rymdbiljard/blackhole/index.html' title='rymdbiljard::blackhole'>blackhole</a>;</code></td></tr><tr><td><code>use <a class='mod' href='../../rymdbiljard/math/index.html' title='rymdbiljard::math'>math</a>;</code></td></tr><tr><td><code>use std::<a class='mod' href='https://doc.rust-lang.org/nightly/std/f64/index.html' title='std::f64'>f64</a>;</code></td></tr></table><h2 id='constants' class='section-header'><a href="#constants">Constants</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='constant' href='constant.FRICTION.html'
+                                  title='rymdbiljard::physics::FRICTION'>FRICTION</a></td>
+                           <td class='docblock-short'>
+                                
+                           </td>
+                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
+<table>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.ball_ball_collision.html'
+                                  title='rymdbiljard::physics::ball_ball_collision'>ball_ball_collision</a></td>
+                           <td class='docblock-short'>
+                                <p>Calculates the new velocities for 2 colliding poolballs after time delta_time,
+(delta_time is in seconds)</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.ball_wall_collision.html'
+                                  title='rymdbiljard::physics::ball_wall_collision'>ball_wall_collision</a></td>
+                           <td class='docblock-short'>
+                                <p>Recalculates the new velocities for the ball given collision with a wall</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.calculate_friction.html'
+                                  title='rymdbiljard::physics::calculate_friction'>calculate_friction</a></td>
+                           <td class='docblock-short'>
+                                <p>Calculates the direction and size of the friction acceleration on the given
+ball</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.calculate_gravity.html'
+                                  title='rymdbiljard::physics::calculate_gravity'>calculate_gravity</a></td>
+                           <td class='docblock-short'>
+                                <p>Calculates the acceleration acting upon the ball from the given black holes</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.gravity_acceleration.html'
+                                  title='rymdbiljard::physics::gravity_acceleration'>gravity_acceleration</a></td>
+                           <td class='docblock-short'>
+                                <p>Calculates the gravity acceleration from an object with given mass at given
+distance</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.time_to_ball_ball_collision.html'
+                                  title='rymdbiljard::physics::time_to_ball_ball_collision'>time_to_ball_ball_collision</a></td>
+                           <td class='docblock-short'>
+                                <p>Returns the time until the given two poolballs collide given their current
+velocities. Infinity is returned if the two poolballs never collide</p>
+                           </td>
+                       </tr>
+                       <tr class=' module-item'>
+                           <td><a class='fn' href='fn.time_to_wall_collision.html'
+                                  title='rymdbiljard::physics::time_to_wall_collision'>time_to_wall_collision</a></td>
+                           <td class='docblock-short'>
+                                <p>Return the time to impact with wall given the current velocity</p>
+                           </td>
+                       </tr></table></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rymdbiljard";
+    </script>
+    <script src="../../jquery.js"></script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>
